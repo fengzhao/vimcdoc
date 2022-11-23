@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="tabpage.txt">tabpage.txt</a> </b>   适用于 Vim 8.2 版本。   最近更新: 2020年11月
+<b class="vimtag"> <a name="tabpage.txt">tabpage.txt</a> </b>   适用于 Vim 9.0 版本。   最近更新: 2022年9月
 
 
                   <code class="vim">VIM 参考手册    by Bram Moolenaar</code>
@@ -106,7 +106,6 @@ GUI 标签页行可以用鼠标右键打开菜单。 <a href="tabpage.html#tabli
 :<code class="special">[count]</code>tabf[ind] <code class="special">[++opt]</code> <code class="special">[+cmd]</code> <code class="special">{file}</code>                 <b class="vimtag"> <a name=":tabf">:tabf</a> </b> <b class="vimtag"> <a name=":tabfind">:tabfind</a> </b>
                 打开新标签页并编辑 <a href="options.html#'path'">'path'</a> 里的 <code class="special">{file}</code>，其余和  <a href="editing.html#:find">:find</a>  类同。关
                 于 <code class="special">[count]</code> 见上面的  <a href="tabpage.html#:tabnew">:tabnew</a> 。
-                <code class="notvi">{仅当编译时加入  <a href="various.html#+file_in_path">+file_in_path</a>  特性才有效}</code>
 
 :<code class="special">[count]</code>tab <code class="special">{cmd}</code>                                       <b class="vimtag"> <a name=":tab">:tab</a> </b>
                 执行 <code class="special">{cmd}</code>，如果它打开新窗口，使用新标签页代替。不能用于
@@ -348,7 +347,7 @@ TabLeave 和 TabEnter 自动命令事件可以在标签页切换时执行任务�
 出一个例子。
 
 基本知识见 <a href="options.html#'statusline'">'statusline'</a> 选项。<a href="options.html#'tabline'">'tabline'</a> 选项可以使用相同的项目。此外，还可用
- <a href="eval.html#tabpagebuflist()">tabpagebuflist()</a> 、 <a href="eval.html#tabpagenr()">tabpagenr()</a>  和  <a href="eval.html#tabpagewinnr()">tabpagewinnr()</a>  函数。
+ <a href="builtin.html#tabpagebuflist()">tabpagebuflist()</a> 、 <a href="builtin.html#tabpagenr()">tabpagenr()</a>  和  <a href="builtin.html#tabpagewinnr()">tabpagewinnr()</a>  函数。
 
 因为标签页标签的编号可以不同，你可以指定整个选项为一个函数。就像这样: 
 <code class="example">        :set tabline=%!MyTabLine()</code>
@@ -361,24 +360,24 @@ TabLeave 和 TabEnter 自动命令事件可以在标签页切换时执行任务�
 <code class="example">          for i in range(tabpagenr('$'))</code>
 <code class="example">            " 选择高亮</code>
 <code class="example">            if i + 1 == tabpagenr()</code>
-<code class="example">              let s .= '%#TabLineSel#'</code>
+<code class="example">              let s ..= '%#TabLineSel#'</code>
 <code class="example">            else</code>
-<code class="example">              let s .= '%#TabLine#'</code>
+<code class="example">              let s ..= '%#TabLine#'</code>
 <code class="example">            endif</code>
 <code class="example"></code>
 <code class="example">            " 设置标签页号 (用于鼠标点击)</code>
-<code class="example">            let s .= '%' . (i + 1) . 'T'</code>
+<code class="example">            let s ..= '%' .. (i + 1) .. 'T'</code>
 <code class="example"></code>
 <code class="example">            " MyTabLabel() 提供标签</code>
-<code class="example">            let s .= ' %{MyTabLabel(' . (i + 1) . ')} '</code>
+<code class="example">            let s ..= ' %{MyTabLabel(' .. (i + 1) .. ')} '</code>
 <code class="example">          endfor</code>
 <code class="example"></code>
 <code class="example">          " 最后一个标签页之后用 TabLineFill 填充并复位标签页号</code>
-<code class="example">          let s .= '%#TabLineFill#%T'</code>
+<code class="example">          let s ..= '%#TabLineFill#%T'</code>
 <code class="example"></code>
 <code class="example">          " 右对齐用于关闭当前标签页的标签</code>
 <code class="example">          if tabpagenr('$') &gt; 1</code>
-<code class="example">            let s .= '%=%#TabLine#%999Xclose'</code>
+<code class="example">            let s ..= '%=%#TabLine#%999Xclose'</code>
 <code class="example">          endif</code>
 <code class="example"></code>
 <code class="example">          return s</code>
@@ -432,14 +431,14 @@ TabLeave 和 TabEnter 自动命令事件可以在标签页切换时执行任务�
 <code class="example">          " 如果标签页里的窗口数目多于一，加上窗口数目</code>
 <code class="example">          let wincount = tabpagewinnr(v:lnum, '$')</code>
 <code class="example">          if wincount &gt; 1</code>
-<code class="example">            let label .= wincount</code>
+<code class="example">            let label ..= wincount</code>
 <code class="example">          endif</code>
 <code class="example">          if label != ''</code>
-<code class="example">            let label .= ' '</code>
+<code class="example">            let label ..= ' '</code>
 <code class="example">          endif</code>
 <code class="example"></code>
 <code class="example">          " 附加缓冲区名</code>
-<code class="example">          return label . bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])</code>
+<code class="example">          return label .. bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])</code>
 <code class="example">        endfunction</code>
 <code class="example"></code>
 <code class="example">        set guitablabel=%{GuiTabLabel()}</code>

@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="undo.txt">undo.txt</a> </b>      适用于 Vim 8.2 版本。   最近更新: 2020年11月
+<b class="vimtag"> <a name="undo.txt">undo.txt</a> </b>      适用于 Vim 9.0 版本。   最近更新: 2022年8月
 
 
                   <code class="vim">VIM 参考手册    by Bram Moolenaar</code>
@@ -118,7 +118,7 @@ U                       撤销最近对特定行所作的一系列更改，也�
                         <code class="note">警告</code>: 小心使用。它会阻止用户合理地撤销改变。不要在撤销
                         或重做后使用。
 
-这最适用于在改变的过程中需要提示用户的场合。例如调用  <a href="eval.html#getchar()">getchar()</a>  的函数。确保
+这最适用于在改变的过程中需要提示用户的场合。例如调用  <a href="builtin.html#getchar()">getchar()</a>  的函数。确保
 在这之前有一个相关的必须与之合并的改变。
 
 这条命令不能单独工作，因为下一个键击会再次造成新改变。但你可以这么做: 
@@ -126,11 +126,14 @@ U                       撤销最近对特定行所作的一系列更改，也�
 <code class="example">        :undojoin | delete</code>
 <code class="example"></code>
 在此之后，"u" 命令会同时撤销 delete 命令和前一次改变。
-
-要反过来，把一个改动分成两个撤销块，在插入模式下用 <code class="keystroke">CTRL-G</code> u。可用于使某个插入
+                                        <b class="vimtag"> <a name="undo-break">undo-break</a> </b> <b class="vimtag"> <a name="undo-close-block">undo-close-block</a> </b>
+要反过来，要让下一改变启用新撤销块，在插入模式下用 <code class="keystroke">CTRL-G</code> u。可用于使某个插入
 命令部分可撤销。譬如可分拆到每个句子。 <a href="insert.html#i_CTRL-G_u">i_CTRL-G_u</a> 
-设置 <a href="options.html#'undolevels'">'undolevels'</a> 的值也会打断撤销。即使新值和旧值相同。
-
+设置 <a href="options.html#'undolevels'">'undolevels'</a> 的值也会结束撤销块。即使新值和旧值相同。 <a href="vim9.html#Vim9">Vim9</a>  脚本里: 
+<code class="example">        &amp;undolevels = &amp;undolevels</code>
+老式脚本里: 
+<code class="example">        let &amp;undolevels = &amp;undolevels</code>
+<code class="example"></code>
 </section><hr class="doubleline" /><section class=inner>
 <h4>4. 撤销分支                                     <b class="vimtag"> <a name="undo-branches">undo-branches</a> </b> <b class="vimtag"> <a name="undo-tree">undo-tree</a> </b></h4>
 上面我们只讨论了单线的撤销/重做。但你也可以进行分支。考虑你先撤销了若干改变，
@@ -157,7 +160,7 @@ U                       撤销最近对特定行所作的一系列更改，也�
                             YYYY/MM/DD HH:MM:SS  同上，还有年
                         "save" 列给出此改变是否已写入硬盘和第几次写入文件。可
                         用于  <a href="undo.html#:later">:later</a>  和  <a href="undo.html#:earlier">:earlier</a>  命令。
-                        要更详细的信息可用  <a href="eval.html#undotree()">undotree()</a>  函数。
+                        要更详细的信息可用  <a href="builtin.html#undotree()">undotree()</a>  函数。
 
                                                         <b class="vimtag"> <a name="g-">g-</a> </b>
 g-                      转到较早的文本状态。如果带计数，重复那么多次。
@@ -273,12 +276,12 @@ Vim 把撤销树保存在一个独立的撤销文件里，每个编辑的文件�
 <code class="example">        au BufReadPost * call ReadUndo()</code>
 <code class="example">        au BufWritePost * call WriteUndo()</code>
 <code class="example">        func ReadUndo()</code>
-<code class="example">          if filereadable(expand('%:h'). '/UNDO/' . expand('%:t'))</code>
+<code class="example">          if filereadable(expand('%:h') .. '/UNDO/' .. expand('%:t'))</code>
 <code class="example">            rundo %:h/UNDO/%:t</code>
 <code class="example">          endif</code>
 <code class="example">        endfunc</code>
 <code class="example">        func WriteUndo()</code>
-<code class="example">          let dirname = expand('%:h') . '/UNDO'</code>
+<code class="example">          let dirname = expand('%:h') .. '/UNDO'</code>
 <code class="example">          if !isdirectory(dirname)</code>
 <code class="example">            call mkdir(dirname)</code>
 <code class="example">          endif</code>
@@ -287,7 +290,7 @@ Vim 把撤销树保存在一个独立的撤销文件里，每个编辑的文件�
 <code class="example"></code>
 此时，应该关闭 <a href="options.html#'undofile'">'undofile'</a>，否则每次写入文件时会有两个撤销文件。
 
-可以用  <a href="eval.html#undofile()">undofile()</a>  函数来确定 Vim 会使用的文件名。
+可以用  <a href="builtin.html#undofile()">undofile()</a>  函数来确定 Vim 会使用的文件名。
 
 <code class="note">注意</code>: 读写文件时，如果设置了 <a href="options.html#'undofile'">'undofile'</a>，大部分的错误信息会被屏蔽，除非设置了
 <a href="options.html#'verbose'">'verbose'</a>。而 :wundo 和 :rundo 会得到更到的错误信息，如文件不能读或写等。

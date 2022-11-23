@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="spell.txt">spell.txt</a> </b>     适用于 Vim 8.2 版本。   最近更新: 2020年9月
+<b class="vimtag"> <a name="spell.txt">spell.txt</a> </b>     适用于 Vim 9.0 版本。   最近更新: 2022年8月
 
 
                   <code class="vim">VIM 参考手册    by Bram Moolenaar</code>
@@ -124,7 +124,7 @@ zuW                                                     <b class="vimtag"> <a na
 zuG                     撤销  <a href="spell.html#zW">zW</a>  和  <a href="spell.html#zG">zG</a> ，从内部单词列表里删除单词。计数的使
                         用方法同  <a href="spell.html#zg">zg</a> 。
 
-                                                        <b class="vimtag"> <a name=":spe">:spe</a> </b> <b class="vimtag"> <a name=":spellgood">:spellgood</a> </b>
+                                                <b class="vimtag"> <a name=":spe">:spe</a> </b> <b class="vimtag"> <a name=":spellgood">:spellgood</a> </b> <b class="vimtag"> <a name="E1280">E1280</a> </b>
 :<code class="special">[count]</code>spe[llgood] <code class="special">{word}</code>
                         把 <code class="special">{word}</code> 作为一个好词加入到 <a href="options.html#'spellfile'">'spellfile'</a>，类似  <a href="spell.html#zg">zg</a> 。
                         如果没有计数，使用第一个名字项目，计数为 2 使用第二个
@@ -150,8 +150,8 @@ zuG                     撤销  <a href="spell.html#zW">zW</a>  和  <a href="sp
                         没有普通模式命令来标记单词为罕见词，因为这是很不常用的
                         命令，而所有直观的命令已经被用掉了。如果你要，可以自动
                         增加映射，如: 
-<code class="example">                nnoremap z?  :exe ':spellrare  ' . expand('&lt;cWORD&gt;')&lt;CR&gt;</code>
-<code class="example">                nnoremap z/  :exe ':spellrare! ' . expand('&lt;cWORD&gt;')&lt;CR&gt;</code>
+<code class="example">                nnoremap z?  :exe ':spellrare  ' .. expand('&lt;cWORD&gt;')&lt;CR&gt;</code>
+<code class="example">                nnoremap z/  :exe ':spellrare! ' .. expand('&lt;cWORD&gt;')&lt;CR&gt;</code>
                          <a href="spell.html#:spellundo">:spellundo</a> 、 <a href="spell.html#zuw">zuw</a>  或  <a href="spell.html#zuW">zuW</a>  可用来撤销此行为。
 
 :spellr[rare]! <code class="special">{word}</code>   把 <code class="special">{word}</code> 作为一个罕见词加入内部单词列表，类似  <a href="spell.html#zW">zW</a> 。
@@ -1111,7 +1111,7 @@ COMPOUNDRULE 项目可以出现多次。它的参数包含一或多个组。每�
         +       该组出现一或多次，例如，c+
         ?       该组出现零或一次，例如，x?
 
-这和正规表达式的语法相似 (但不完全相同！)。一些例子如下，这里同时列出它们所要
+这和正则表达式的语法相似 (但不完全相同！)。一些例子如下，这里同时列出它们所要
 求的标志位序列:
     COMPOUNDRULE x+        x xx xxx 等
     COMPOUNDRULE yz        yz
@@ -1354,7 +1354,7 @@ SAL 机制复杂又费时。一个稍简单的机制是把所有的字符映射�
 不出现在 SOFOFROM 里的字符被省略，除了所有的空白被为单个空格替换以外。SOFOFORM
 里相同字符的序列被替换为一个字符。
 
-你可以用  <a href="eval.html#soundfold()">soundfold()</a>  函数测试结果。也可以设置 <a href="options.html#'verbose'">'verbose'</a> 选项来看看  <a href="spell.html#z%20">z=</a>  命令
+你可以用  <a href="builtin.html#soundfold()">soundfold()</a>  函数测试结果。也可以设置 <a href="options.html#'verbose'">'verbose'</a> 选项来看看  <a href="spell.html#z%20">z=</a>  命令
 输出的评分。
 
 

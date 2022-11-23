@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="version6.txt">version6.txt</a> </b>  适用于 Vim 8.2 版本。   最近更新: 2021年4月
+<b class="vimtag"> <a name="version6.txt">version6.txt</a> </b>  适用于 Vim 9.0 版本。   最近更新: 2022年7月
 
 
                   <code class="vim">VIM 参考手册    by Bram Moolenaar</code>
@@ -535,8 +535,8 @@ GUI 上，<code class="keystroke">CTRL-C</code> 现在只在忙于做事情的�
 \_[]            匹配范围里的字符还有行尾
 \_x             匹配字符类还有行尾
 \_.             匹配任何字符还有行尾
-\_^             匹配行首，可以用在正规表达式的任何位置
-\_$             匹配行尾，可以用在正规表达式的任何位置
+\_^             匹配行首，可以用在正则表达式的任何位置
+\_$             匹配行尾，可以用在正则表达式的任何位置
 
 若干其它搜索模式的新项目:
 \c              忽略整个模式的大小写
@@ -870,7 +870,7 @@ X-Windows 和 MS-Windows  <a href="remote.html#clientserver">clientserver</a> �
 用 "--remote-send" 从一个 Vim 发送命令给另一个。
 用 "--remote-expr" 来在另一个 Vim 里计算表达式。
 用 "--serverlist" 列出当前可用的 Vim 服务器。(只限于 X)
-还有服务器和客户之间通信的函数。 <a href="eval.html#remote_send()">remote_send()</a>   <a href="eval.html#remote_expr()">remote_expr()</a> 
+还有服务器和客户之间通信的函数。 <a href="builtin.html#remote_send()">remote_send()</a>   <a href="builtin.html#remote_expr()">remote_expr()</a> 
 
 (X-windows 版本由 Flemming Madsen 实现，MS-Windows 版本由 Paul Moore 提供)
 
@@ -1419,7 +1419,7 @@ submatch() 函数访问子匹配。
 - 加入字符时不清除命令行，避免调用 screen_fill 而不做任何事。
 
 健壮性:
-- Unix: 执行正规表达式时检查堆栈是否溢出。避免很麻烦的溢出。只用于支持能在另一
+- Unix: 执行正则表达式时检查堆栈是否溢出。避免很麻烦的溢出。只用于支持能在另一
   个堆栈上运行 signal 函数的系统。
 - 不允许 ":source <code class="special">&lt;dirname&gt;</code>"。Unix 上可以读取目录，但用它作为 Vim 命令没有任何
   意义。
@@ -2408,7 +2408,7 @@ Multi-byte:
   double-wide character.
 - Overstrike mode for the cmdline replaced only the first byte of a multibyte
   character.
-- The cursor in Replace mode (also in the cmdline) was to small on a
+- The cursor in Replace mode (also in the cmdline) was too small on a
   double-wide character.
 - When a multibyte character contained a 0x80 byte, it didn't work (was using
   a CSI byte instead). (Muraoka Taro)
@@ -5173,7 +5173,7 @@ Patch 6.0.266
 Patch 6.0.267
 问题:       UTF-8: Although <a href="options.html#'isprint'">'isprint'</a> says a character is printable,
             utf_char2cells() still considers it unprintable.
-解决方案:   Use vim_isprintc() for characters upto 0x100. (Yasuhiro Matsumoto)
+解决方案:   Use vim_isprintc() for characters up to 0x100. (Yasuhiro Matsumoto)
 相关文件:   src/mbyte.c
 
 Patch 6.0.268 (extra) (depends on patch 6.0.255)
@@ -9339,7 +9339,7 @@ Patch 6.2f.015 (extra)
 
 Patch 6.2f.016
 问题:       "vim --version &gt; ff" on non-Unix systems results in a file with a
-            missing line break at the end. (Bill McCArthy)
+            missing line break at the end. (Bill McCarthy)
 解决方案:   Add a line break.
 相关文件:   src/main.c
 
@@ -11915,7 +11915,7 @@ Patch 6.2.347 (extra)
 
 Patch 6.2.348
 问题:       Win32: "vim c:\dir\(test)" doesn't work, because the <a href="options.html#'isfname'">'isfname'</a>
-            default value doesn't contain parenthesis.
+            default value doesn't contain parentheses.
 解决方案:   Temporarily add '(' and ')' to <a href="options.html#'isfname'">'isfname'</a> when expanding file name
             arguments.
 相关文件:   src/main.c
@@ -12130,7 +12130,7 @@ Patch 6.2.380 (extra)
 相关文件:   src/Make_bc5.mak, src/testdir/Make_dos.mak
 
 Patch 6.2.381
-问题:       Setting <a href="options.html#'fileencoding'">'fileencoding'</a> to a comma separated list (confusing it
+问题:       Setting <a href="options.html#'fileencoding'">'fileencoding'</a> to a comma-separated list (confusing it
             with <a href="options.html#'fileencodings'">'fileencodings'</a>) does not result in an error message.
             Setting <a href="options.html#'fileencoding'">'fileencoding'</a> in an empty file marks it as modified.
             There is no "+" in the title after setting <a href="options.html#'fileencoding'">'fileencoding'</a>.
@@ -12547,7 +12547,7 @@ Patch 6.2.443
 Patch 6.2.444
 问题:       When adding the 'c' flag to a ":substitute" command it may replace
             more times than without the 'c' flag.  Happens for a  match that
-            starts with "\ze" (Marcel Svitalsk) and when using "\@&lt;=" (Klaus
+            starts with "\ze" (Marcel Svitalsky) and when using "\@&lt;=" (Klaus
             Bosau).
 解决方案:   Correct "prev_matchcol" when replacing the line.  Don't replace
             the line when the pattern uses look-behind matching.

@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="syntax.txt">syntax.txt</a> </b>    适用于 Vim 8.2 版本。   最近更新: 2021年4月
+<b class="vimtag"> <a name="syntax.txt">syntax.txt</a> </b>    适用于 Vim 9.0 版本。   最近更新: 2022年9月
 
 
                   <code class="vim">VIM 参考手册    by Bram Moolenaar</code>
@@ -66,13 +66,14 @@ Vim 支持所有终端上的语法高亮。但因为多数普通的终端只有�
 10. 包含语法文件                 <a href="syntax.html#:syn-include">:syn-include</a> 
 11. 同步                         <a href="syntax.html#:syn-sync">:syn-sync</a> 
 12. 列出语法项目                 <a href="syntax.html#:syntax">:syntax</a> 
-13. Highlight 命令               <a href="syntax.html#:highlight">:highlight</a> 
-14. 链接组                       <a href="syntax.html#:highlight-link">:highlight-link</a> 
-15. 清理                         <a href="syntax.html#:syn-clear">:syn-clear</a> 
-16. 高亮标签                     <a href="syntax.html#tag-highlight">tag-highlight</a> 
-17. 窗口局部语法                 <a href="syntax.html#:ownsyntax">:ownsyntax</a> 
-18. 彩色 xterm                   <a href="syntax.html#xterm-color">xterm-color</a> 
-19. 语法太慢了                   <a href="syntax.html#:syntime">:syntime</a> 
+13. 色彩方案                     <a href="syntax.html#color-schemes">color-schemes</a> 
+14. Highlight 命令               <a href="syntax.html#:highlight">:highlight</a> 
+15. 链接组                       <a href="syntax.html#:highlight-link">:highlight-link</a> 
+16. 清理                         <a href="syntax.html#:syn-clear">:syn-clear</a> 
+17. 高亮标签                     <a href="syntax.html#tag-highlight">tag-highlight</a> 
+18. 窗口局部语法                 <a href="syntax.html#:ownsyntax">:ownsyntax</a> 
+19. 彩色 xterm                   <a href="syntax.html#xterm-color">xterm-color</a> 
+20. 语法太慢了                   <a href="syntax.html#:syntime">:syntime</a> 
 
 <code class="notvi">{Vi 无此功能}</code>
 
@@ -232,8 +233,9 @@ Vim。
 高亮组名用于匹配相同类型事物的高亮项目。它们被链接到用于指定颜色的高亮组。语法
 组名本身不指定任何颜色或属性。
 
-高亮或者语法组的名字必须由 ASCII 字母，数字和下划线组成。如使用正规表达式表示:
-"[a-zA-Z0-9_]*"。不过，使用其它字符时 Vim 不报错。
+高亮或者语法组的名字必须由 ASCII 字母，数字和下划线组成。如使用正则表达式表示:
+"[a-zA-Z0-9_]*"。不过，使用其它字符时 Vim 不报错。组名最大长度大约是 200 字
+节。 <b class="vimtag"> <a name="E1249">E1249</a> </b>
 
 要允许每个用户选择他们自己喜欢的色彩系列，许多语言应该使用相同的高亮组名。以下
 是建议的组名 (如果语法高亮能够正确工作，你应该能看到实际的颜色，除了 "Ignore"
@@ -615,7 +617,7 @@ CSS 特性查询来检测) 会隐藏 <code class="special">&lt;input&gt;</code> 
 完整 ID 即使和更大的 HTML 文档的其他内容合并时也保持唯一。例如，要给每个 ID 后
 附加 _ 和缓冲区号: 
 <code class="example"></code>
-<code class="example">        :let g:html_id_expr = '"_".bufnr("%")'</code>
+<code class="example">        :let g:html_id_expr = '"_" .. bufnr("%")'</code>
 
 要给每个 ID 号附加字符串 "_mystring": 
 <code class="example"></code>
@@ -879,11 +881,14 @@ GL 编程。支持很多的标准宏定义/常数。
 <code class="example"></code>
 BASIC                   <b class="vimtag"> <a name="basic.vim">basic.vim</a> </b> <b class="vimtag"> <a name="vb.vim">vb.vim</a> </b> <b class="vimtag"> <a name="ft-basic-syntax">ft-basic-syntax</a> </b> <b class="vimtag"> <a name="ft-vb-syntax">ft-vb-syntax</a> </b>
 
-Visual Basic 和 "普通的" Basic 都使用扩展名 ".bas"。要检测使用的是哪一个，Vim
+Visual Basic 和 "普通的" BASIC 都使用扩展名 ".bas"。要检测使用的是哪一个，Vim
 在文件的头五行检查字符串 "VB_Name"。如果没找到，文件类型将是 "basic"，不然就是
 "vb"。带 ".frm" 扩展名的文件总被视为 Visual Basic 类型。
 
-
+如果自动检测不行或者比如说你只能编辑 FreeBASIC 文件，可在 .vimrc 里指定: 
+<code class="example">   :let filetype_bas = "freebasic"</code>
+<code class="example"></code>
+<code class="example"></code>
 C                                                       <b class="vimtag"> <a name="c.vim">c.vim</a> </b> <b class="vimtag"> <a name="ft-c-syntax">ft-c-syntax</a> </b>
 
 C 高亮的一些设置是可选的。要打开，给相应的变量赋任何值 (包括零)。例如: 
@@ -991,28 +996,41 @@ ChangeLog 支持行首的空格高亮。如果你不喜欢，在你的 .vimrc �
 
 CLOJURE                                                 <b class="vimtag"> <a name="ft-clojure-syntax">ft-clojure-syntax</a> </b>
 
-缺省的语法组可以用 <b class="vimtag"> <a name="g:clojure_syntax_keywords">g:clojure_syntax_keywords</a> </b> 和 <b class="vimtag"> <a name="b:clojure_syntax_keywords">b:clojure_syntax_keywords</a> </b>
-变量进行扩展。其值应为语法组名映射到定制标识符的  <a href="eval.html#List">List</a>  的  <a href="eval.html#Dictionary">Dictionary</a> :
+                                                <b class="vimtag"> <a name="g:clojure_syntax_keywords">g:clojure_syntax_keywords</a> </b>
+
+缺省提供 "clojure.core" 的公共变量的语法高亮，要高亮额外符号，可把它们加到
+ <a href="syntax.html#g:clojure_syntax_keywords">g:clojure_syntax_keywords</a>  变量。其值应为语法组名映射到标识符的  <a href="eval.html#List">List</a>  的
+ <a href="eval.html#Dictionary">Dictionary</a> :
 
 <code class="example">        let g:clojure_syntax_keywords = {</code>
-<code class="example">            \ 'clojureMacro': ["defproject", "defcustom"],</code>
-<code class="example">            \ 'clojureFunc': ["string/join", "string/replace"]</code>
+<code class="example">            \   'clojureMacro': ["defproject", "defcustom"],</code>
+<code class="example">            \   'clojureFunc': ["string/join", "string/replace"]</code>
 <code class="example">            \ }</code>
 
 合法的语法组名可参见 Closure 语法脚本。
 
-如果置位  <a href="eval.html#buffer-variable">buffer-variable</a>  <b class="vimtag"> <a name="b:clojure_syntax_without_core_keywords">b:clojure_syntax_without_core_keywords</a> </b> ，只匹配语
-言常数和特殊表达式。
+还有 <b class="vimtag"> <a name="b:clojure_syntax_keywords">b:clojure_syntax_keywords</a> </b> ，是此变量的缓冲区局部版本，插件
+作者可用来动态高亮符号。
 
-置位 <b class="vimtag"> <a name="g:clojure_fold">g:clojure_fold</a> </b> 允许通过语法引擎来折叠 Clojure 代码。任何超过一行的
-list、 vector 或 map 会使用标准 Vim  <a href="fold.html#fold-commands">fold-commands</a>  进行折叠。
+设置 <b class="vimtag"> <a name="b:clojure_syntax_without_core_keywords">b:clojure_syntax_without_core_keywords</a> </b> 变量时，缺省不高亮
+"clojure.core" 的变量。这可用于设置了 `(:refer-clojure :only [])` 的命名空间。
 
-请 <code class="note">注意</code> 此选项和重定义括号语法区域的脚本不兼容，如 rainbox-parentheses 插件。
 
-缺省关闭此选项。
+                                                        <b class="vimtag"> <a name="g:clojure_fold">g:clojure_fold</a> </b>
 
-<code class="example">        " 缺省</code>
-<code class="example">        let g:clojure_fold = 0</code>
+置位  <a href="syntax.html#g:clojure_fold">g:clojure_fold</a>  为  <code class="badlink">1</code>  打开 Clojure 代码的折叠。任何超过一行的 list、
+vector 或 map 会使用标准 Vim  <a href="fold.html#fold-commands">fold-commands</a>  进行折叠。
+
+
+                                                <b class="vimtag"> <a name="g:clojure_discard_macro">g:clojure_discard_macro</a> </b>
+
+置位此变量为  <code class="badlink">1</code>  可以打开 Clojure 的 "丢弃阅读器宏 (discard reader macro)" 的
+基本高亮。
+
+<code class="example">        #_(defn foo [x]</code>
+<code class="example">            (println x))</code>
+
+<code class="note">注意</code> 此选项不能正确高亮层叠的丢弃宏 (如  <code class="badlink">#_#_</code> )。
 
 
 COBOL                                           <b class="vimtag"> <a name="cobol.vim">cobol.vim</a> </b> <b class="vimtag"> <a name="ft-cobol-syntax">ft-cobol-syntax</a> </b>
@@ -1041,6 +1059,8 @@ CPP                                             <b class="vimtag"> <a name="cpp.
 <code class="section">变量                    特色 </code>
 cpp_no_cpp11            不高亮 C++11 标准项目
 cpp_no_cpp14            不高亮 C++14 标准项目
+cpp_no_cpp17            不高亮 C++17 标准项目
+cpp_no_cpp20            不高亮 C++20 标准项目
 
 
 CSH                                             <b class="vimtag"> <a name="csh.vim">csh.vim</a> </b> <b class="vimtag"> <a name="ft-csh-syntax">ft-csh-syntax</a> </b>
@@ -1201,7 +1221,7 @@ doxygen_my_rendering            0       关闭 HTML 粗体、斜体和
 doxygen_javadoc_autobrief       1       如果为 0，关闭 Javadoc autobrief 色彩
                                         高亮。
 
-doxygen_end_punctuation         '[.]'   匹配 brief 结束标点的正规表达式。
+doxygen_end_punctuation         '[.]'   匹配 brief 结束标点的正则表达式。
 
 还有一些高亮组值得提提，你可以对它们进行配置。
 
@@ -1283,13 +1303,16 @@ Euphoria 3.1.1 版本 (<a href="http://www.rapideuphoria.com/">http://www.rapide
 要选择 Euphoria 的语法文件，同时也自动识别 *.e 和 *.E 文件扩展名为 Euphoria 文
 件类型，在启动文件里加入以下一行: 
 <code class="example"></code>
-<code class="example">        :let filetype_euphoria="euphoria3"</code>
+<code class="example">        :let g:filetype_euphoria = "euphoria3"</code>
 <code class="example"></code>
-<code class="example">        或</code>
+        或 
 <code class="example"></code>
-<code class="example">        :let filetype_euphoria="euphoria4"</code>
+<code class="example">        :let g:filetype_euphoria = "euphoria4"</code>
 <code class="example"></code>
-<code class="example"></code>
+Elixir 和 Euphoria 共享 *.ex 文件扩展名。如果通过 g:filetype_euphoria 变量专门
+设置文件类型为 Euphoria，或者通过文件里的关键字判断为 Euphoria，则文件类型设为
+Euphoria。否则，文件类型缺省为 Elixir。
+
 ERLANG                                          <b class="vimtag"> <a name="erlang.vim">erlang.vim</a> </b> <b class="vimtag"> <a name="ft-erlang-syntax">ft-erlang-syntax</a> </b>
 
 Erlang 是 Ericsson 开发的函数编程语言。下列文件后缀被识别为 Erlang 文件: erl、
@@ -1304,6 +1327,19 @@ hrl、yaws。
 <code class="example">        :let g:erlang_highlight_special_atoms = 1</code>
 <code class="example"></code>
 <code class="example"></code>
+ELIXIR                                          <b class="vimtag"> <a name="elixir.vim">elixir.vim</a> </b> <b class="vimtag"> <a name="ft-elixir-syntax">ft-elixir-syntax</a> </b>
+
+Elixir 是动态函数型语言，用于构建规模化可维护的应用。
+
+以下文件扩展名自动检测为 Elixir 文件类型:
+
+        *.ex, *.exs, *.eex, *.leex, *.lock
+
+Elixir 和 Euphoria 共享 *.ex 文件扩展名。如果通过 g:filetype_euphoria 变量专门
+设置文件类型为 Euphoria，或者通过文件里的关键字判断为 Euphoria，则文件类型设为
+Euphoria。否则，文件类型缺省为 Elixir。
+
+
 FLEXWIKI                                <b class="vimtag"> <a name="flexwiki.vim">flexwiki.vim</a> </b> <b class="vimtag"> <a name="ft-flexwiki-syntax">ft-flexwiki-syntax</a> </b>
 
 FlexWiki 是基于 ASP.NET 的 wiki 包，从 <a href="http://www.flexwiki.com">http://www.flexwiki.com</a> 可以获得。
@@ -1349,7 +1385,20 @@ J.A.M. Vermaseren 编著的语言说明书 'Symbolic Manipulation with FORM'。
 (formStatement) 使用 LightYellow 而不是 Yellow。而条件句 (formConditional) 使
 用 LightBlue，以达到更好的区分度。
 
+Visual Basic 和 FORM 都使用扩展名 ".frm"。要检测文件类型，Vim 在文件头五行检查
+"VB_Name" 字符串。如果找到，文件类型为 "vb"，不然为 "form"。
 
+如果自动检测不行或者比如说你只能编辑 FORM 文件，可在 vimrc 里指定: 
+<code class="example">   :let filetype_frm = "form"</code>
+<code class="example"></code>
+<code class="example"></code>
+FORTH                                           <b class="vimtag"> <a name="forth.vim">forth.vim</a> </b> <b class="vimtag"> <a name="ft-forth-syntax">ft-forth-syntax</a> </b>
+
+匹配 "*.fs" 的文件可能是 F# 或是 Forth。如果自动检测不行或者比如说你不想编辑
+F# 文件，可在 vimrc 里指定: 
+<code class="example">   :let filetype_fs = "forth"</code>
+<code class="example"></code>
+<code class="example"></code>
 FORTRAN                                 <b class="vimtag"> <a name="fortran.vim">fortran.vim</a> </b> <b class="vimtag"> <a name="ft-fortran-syntax">ft-fortran-syntax</a> </b>
 
 <code class="section">缺省高亮方式和方言 </code>
@@ -1369,7 +1418,7 @@ Fortran 代码可以使用固定宽度的源代码，也可以使用自由形式
 
 如果以非标准的形式让源代码的格式取决于文件扩展名，那么最方便的方法是在
 ftplugin 文件里设置 fortran_free_source。关于 ftplugin 文件的更多信息，见
- <a href="usr_41.html#ftplugin">ftplugin</a> 。<code class="note">注意</code>，要使之工作，你需要在 .vimrc 文件的 "syntax on" 命令之前加上
+ <a href="usr_51.html#ftplugin">ftplugin</a> 。<code class="note">注意</code>，要使之工作，你需要在 .vimrc 文件的 "syntax on" 命令之前加上
 "filetype plugin indent on" 命令。
 
 编辑已有的 Fortran 文件时，如果定义了 fortran_free_source 变量，语法脚本假定使
@@ -1427,7 +1476,7 @@ fortran_fold_multilinecomments，vim 会在你使用 foldmethod=syntax 时折叠
 小写敏感的，而且必须是 "f08" 或 "F"。不合法的 fortran_dialect 的值被忽略。
 
 如果源代码的格式取决于文件扩展名，那么最方便的方法是在 ftplugin 文件里设置一个
-缓冲区局部变量。关于 ftplugin 文件的详情，见  <a href="usr_41.html#ftplugin">ftplugin</a> 。例如，如果你使用 .f90
+缓冲区局部变量。关于 ftplugin 文件的详情，见  <a href="usr_51.html#ftplugin">ftplugin</a> 。例如，如果你使用 .f90
 扩展名的所有 Fortran 文件都使用 F 子集，那么在你的 ftplugin 文件里应该包含代码
 
 <code class="example">    let s:extfname = expand("%:e")</code>
@@ -1460,6 +1509,20 @@ syntax/fortran.vim 脚本包含内嵌注释，说明如何为某些行加上注�
 
 更多关于 Fortran 的信息可见  <a href="indent.html#ft-fortran-indent">ft-fortran-indent</a>  和  <a href="filetype.html#ft-fortran-plugin">ft-fortran-plugin</a> 。
 
+FREEBASIC                               <b class="vimtag"> <a name="freebasic.vim">freebasic.vim</a> </b> <b class="vimtag"> <a name="ft-freebasic-syntax">ft-freebasic-syntax</a> </b>
+
+FreeBASIC 文件可为四种可用的方言，"fb"、"qb"、"fblite" 和 "deprecated" 提供不
+同的高亮。关于如何选择正确的方言，可见  <a href="filetype.html#ft-freebasic-plugin">ft-freebasic-plugin</a> 。
+
+进一步地，可用如下变量配置高亮。
+
+<code class="section">变量                            高亮 </code>
+<b class="vimtag"> <a name="freebasic_no_comment_fold">freebasic_no_comment_fold</a> </b>     关闭多行注释折叠
+<b class="vimtag"> <a name="freebasic_operators">freebasic_operators</a> </b>           非字母操作符
+<b class="vimtag"> <a name="freebasic_space_errors">freebasic_space_errors</a> </b>        拖尾空格和 <code class="special">&lt;Tab&gt;</code> 之前的空格
+<b class="vimtag"> <a name="freebasic_type_suffixes">freebasic_type_suffixes</a> </b>       QuickBASIC 风格的类型后缀
+
+
 
 FVWM 配 置 文 件                                <b class="vimtag"> <a name="fvwm.vim">fvwm.vim</a> </b> <b class="vimtag"> <a name="ft-fvwm-syntax">ft-fvwm-syntax</a> </b>
 
@@ -1473,15 +1536,6 @@ myfiletypes.vim 文件里放入附加适合你系统的模式。对于这些模�
 <code class="example">  :au! BufNewFile,BufRead /etc/X11/fvwm2/*  let b:fvwm_version = 2 |</code>
 <code class="example">                                         \ set filetype=fvwm</code>
 <code class="example"></code>
-如果你想让 Vim 高亮所有的合法颜色名，告诉它如何找到在你的系统上颜色数据库
-(rgb.txt)。设置 "rgb_file" 指向该文件就可以了。假如你的颜色数据库在
-/usr/X11/lib/X11/，加入下行 
-<code class="example"></code>
-<code class="example">        :let rgb_file = "/usr/X11/lib/X11/rgb.txt"</code>
-<code class="example"></code>
-到你的 .vimrc 文件里。
-
-
 GSP                                             <b class="vimtag"> <a name="gsp.vim">gsp.vim</a> </b> <b class="vimtag"> <a name="ft-gsp-syntax">ft-gsp-syntax</a> </b>
 
 GSP 页面的缺省色彩风格由  <a href="syntax.html#html.vim">html.vim</a>  定义，而 Java 代码 (在 Java 标签里或反引号
@@ -1891,6 +1945,14 @@ Waterloo Maple Inc 的 Maple V 支持符号代数。该语言支持很多函数�
 <code class="example">  mv_finance     mv_logic       mv_powseries</code>
 <code class="example"></code>
 <code class="example"></code>
+MARKDOWN                                                <b class="vimtag"> <a name="ft-markdown-syntax">ft-markdown-syntax</a> </b>
+
+如果有很长的区域，高亮可能会出错。以减慢显示速度为代价，可以让引擎反向查找更
+远去同步区域开始处，例如反向 500 行: 
+<code class="example"></code>
+<code class="example">        :let g:markdown_minlines = 500</code>
+<code class="example"></code>
+<code class="example"></code>
 MATHEMATICA             <b class="vimtag"> <a name="mma.vim">mma.vim</a> </b> <b class="vimtag"> <a name="ft-mma-syntax">ft-mma-syntax</a> </b> <b class="vimtag"> <a name="ft-mathematica-syntax">ft-mathematica-syntax</a> </b>
 
 自动假设空白的 *.m 文件为 Matlab 文件，除非你在 .vimrc 里指定了: 
@@ -1909,7 +1971,7 @@ MOO                                             <b class="vimtag"> <a name="moo.
 <code class="example"></code>
 <code class="example">        :let moo_no_pronoun_sub = 1</code>
 <code class="example"></code>
-要关闭正规表达式 '%|' 操作符和字符串里匹配的 '%(' 和 '%)' 所用的高亮: 
+要关闭正则表达式 '%|' 操作符和字符串里匹配的 '%(' 和 '%)' 所用的高亮: 
 <code class="example"></code>
 <code class="example">        :let moo_no_regexp = 1</code>
 <code class="example"></code>
@@ -2240,10 +2302,10 @@ PPWizard 是 HTML 和 OS/2 INF 文件的预处理器。
 - ppwiz_highlight_defs : 决定 PPWizard 定义的高亮模式。可能值是
 
   ppwiz_highlight_defs = 1 : PPWizard #define 语句保留其内容的色彩 (比如，
-    PPWizard 的宏和变量)
+    PPWizard 的宏和变量)。
 
   ppwiz_highlight_defs = 2 : 预处理器 #define 和 #evaluate 语句使用单色显示，
-    除了续行符以外
+    除了续行符以外。
 
   缺省 ppwiz_highlight_defs 的设置为 1。
 
@@ -2278,7 +2340,7 @@ PostScript 的高亮有若干选项。
 <code class="example"></code>
 如果该变量没有定义，缺省值为 2 (Level 2)，因为这是目前最常用的版本。
 
-<code class="note">注意</code>，不是所有的 PS 解释器都支持某一特定语言级别的所有语言特性。特别是，PS 文
+<code class="note">注意</code>: 不是所有的 PS 解释器都支持某一特定语言级别的所有语言特性。特别是，PS 文
 件开头的 %!PS-Adobe-3.0 并 <code class="emphasis">不</code> 意味着使用的 PostScript 是 Level 3 的
 PostScript！
 
@@ -2542,7 +2604,7 @@ RUBY                                            <b class="vimtag"> <a name="ruby
     {          花括号块或哈希字面值
     [          数组字面值
     %          "%" 记号的字面值，如: %w(STRING)、%!STRING!
-    /          正规表达式
+    /          正则表达式
     string     字符串和外壳命令输出 (被 '、"、` 包围)
     :          符号
     #          多行注释
@@ -2785,6 +2847,13 @@ Oracle 改为任何目前支持的 SQL 类型。你也可以方便地为每个�
 详细的操作可见  <a href="ft_sql.html#ft_sql.txt">ft_sql.txt</a> 。
 
 
+SQUIRREL                                <b class="vimtag"> <a name="squirrel.vim">squirrel.vim</a> </b> <b class="vimtag"> <a name="ft-squirrel-syntax">ft-squirrel-syntax</a> </b>
+
+Squirrel 是高级指令式面向对象程序语言，设计目标是轻量级的脚本语言，满足视频游
+戏之类应用的大小、内存带宽和实时的需求。以下扩展名的文件识别为 squirrel 文件:
+.nut。
+
+
 TCSH                                            <b class="vimtag"> <a name="tcsh.vim">tcsh.vim</a> </b> <b class="vimtag"> <a name="ft-tcsh-syntax">ft-tcsh-syntax</a> </b>
 
 这里讨论名为 "tcsh" 的外壳。这是 csh 的超集。关于如何检测文件类型，见
@@ -3018,7 +3087,7 @@ utf-8 字形，包括各种重音字符、数学模式的希腊字母。数学�
 <code class="section"> Tex: Match Check Control</code>
 
         有时我们可能实际需要不匹配的小括号，方括号和/或花括号；例如，
-        \text{(1, 10] 是一个从 1 (开) 到 10 (闭) 的范围。这种需要和提供界限符
+        \text{(1, 10]} 是一个从 1 (开) 到 10 (闭) 的范围。这种需要和提供界限符
         错误匹配检测的愿望当然有冲突。为了平衡这些冲突的目标，syntax/tex.vim
         提供了 
 <code class="example">                g:tex_matchcheck = '[({[]'</code>
@@ -3122,8 +3191,8 @@ xpm.vim 根据 XPM 文件的内容动态地建立语法项目。这样你就可�
 <code class="example">   :function! GetPixel()</code>
 <code class="example">   :   let c = getline(".")[col(".") - 1]</code>
 <code class="example">   :   echo c</code>
-<code class="example">   :   exe "noremap &lt;LeftMouse&gt; &lt;LeftMouse&gt;r".c</code>
-<code class="example">   :   exe "noremap &lt;LeftDrag&gt;  &lt;LeftMouse&gt;r".c</code>
+<code class="example">   :   exe "noremap &lt;LeftMouse&gt; &lt;LeftMouse&gt;r" .. c</code>
+<code class="example">   :   exe "noremap &lt;LeftDrag&gt;  &lt;LeftMouse&gt;r" .. c</code>
 <code class="example">   :endfunction</code>
 <code class="example">   :noremap &lt;RightMouse&gt; &lt;LeftMouse&gt;:call GetPixel()&lt;CR&gt;</code>
 <code class="example">   :set guicursor=n:hor20          " 可以看到光标下的颜色</code>
@@ -3172,11 +3241,11 @@ Vim 理解三种语法项目的类型:
    键字字符，但 "d" 是。
 
 2. 匹配
-   它匹配单个正规表达式模式。
+   它匹配单个正则表达式模式。
 
 3. 区域
-   它始于 "start" 正规表达式模式的匹配，结束于 "end" 正规表达式模式的匹配。两
-者之间可以包含任何文本。其中，"skip" 正规表达式模式可以用来避免 "end" 模式的匹
+   它始于 "start" 正则表达式模式的匹配，结束于 "end" 正则表达式模式的匹配。两
+者之间可以包含任何文本。其中，"skip" 正则表达式模式可以用来避免 "end" 模式的匹
 配。
 
 若干语法*项目*可以放在一个语法*组*里。你可以为一个语法组设置高亮属性。例如，你
@@ -3211,12 +3280,13 @@ Vim 理解三种语法项目的类型:
         到下一个 ":syntax case" 命令为止的所有项目。
 
 :sy[ntax] case
-        显示 "syntax case match" 或 "syntax case ignore" 之一 (经过翻译)。
+        显示 "syntax case match" 或 "syntax case ignore" 之一。
 
 
 定 义 折 叠 级 别                                       <b class="vimtag"> <a name=":syn-foldlevel">:syn-foldlevel</a> </b>
 
-:sy[ntax] foldlevel [start | minimum]
+:sy[ntax] foldlevel start
+:sy[ntax] foldlevel minimum
         定义使用 foldmethod=syntax 时，如何计算行的折叠级别 (见  <a href="fold.html#fold-syntax">fold-syntax</a> 
         和  <a href="syntax.html#:syn-fold">:syn-fold</a> ):
 
@@ -3228,14 +3298,17 @@ Vim 理解三种语法项目的类型:
         的折叠。
 
 :sy[ntax] foldlevel
-        显示 "syntax foldlevel start" 或 "syntax foldlevel minimum" 两者之一。
+        显示当前折叠级别的计算方法，"syntax foldlevel start" 或
+        "syntax foldlevel minimum" 两者之一。
 
         <code class="notvi">{仅当 Vim 编译时带有  <a href="various.html#+folding">+folding</a>  特性才有意义}</code>
 
 
 拼 写 检 查                                             <b class="vimtag"> <a name=":syn-spell">:syn-spell</a> </b>
 
-:sy[ntax] spell [toplevel | notoplevel | default]
+:sy[ntax] spell toplevel
+:sy[ntax] spell notoplevel
+:sy[ntax] spell default
         定义不在任何语法项目里的文本在何处进行拼写检查:
 
         toplevel:       文本进行拼写检查。
@@ -3248,8 +3321,8 @@ Vim 理解三种语法项目的类型:
         要激活拼写检查，必须置位 <a href="options.html#'spell'">'spell'</a> 选项。
 
 :sy[ntax] spell
-        显示 "syntax spell toplevel"、"syntax spell notoplevel" 或
-        "syntax spell default" 之一 (经过翻译)。
+        显示当前语法拼写检查方法，"syntax spell toplevel"、
+        "syntax spell notoplevel" 或 "syntax spell default" 之一。
 
 
 语 法 ISKEYWORD 设 置                                   <b class="vimtag"> <a name=":syn-iskeyword">:syn-iskeyword</a> </b>
@@ -3511,7 +3584,7 @@ conceal                                         <b class="vimtag"> <a name="conc
 如果给出 "conceal" 参数，本项目被标为可隐藏。实际隐藏与否取决于 <a href="options.html#'conceallevel'">'conceallevel'</a>
 选项的值。<a href="options.html#'concealcursor'">'concealcursor'</a> 选项决定当前行的可隐藏项目是否会以正常方式显示，以便
 对本行进行编辑。
-另一个隐藏文本的办法是用  <a href="eval.html#matchadd()">matchadd()</a> 。
+另一个隐藏文本的办法是用  <a href="builtin.html#matchadd()">matchadd()</a> 。
 
 concealends                                             <b class="vimtag"> <a name=":syn-concealends">:syn-concealends</a> </b>
 
@@ -3572,9 +3645,8 @@ transparent                                             <b class="vimtag"> <a na
 现的匹配优先于先出现的匹配)。"transparent" 参数使得 "myVim" 的匹配使用和
 "myString" 相同的高亮，但它本身不再包含其它项目。如果没有指定 "contains=NONE"
 参数，那么 "myVim" 会使用 myString 的 contains 参数，从而包含了 "myWord"，因而
-被高亮为 Constant (<code class="vim">译者注</code>: 应为 Comment)。这之所以会发生，是因为被包含的项目不
-会在同样的位置上匹配外层同一个语法项目，所以这里，在最内层的 "myVim" 匹配不能
-否决 "myWord" 的匹配。
+被高亮为 Comment。这之所以会发生，是因为被包含的项目不会在同样的位置上匹配外层
+同一个语法项目，所以这里，在最内层的 "myVim" 匹配不能否决 "myWord" 的匹配。
 
 如果你看有色彩的文本，它实际上是由一层层被包含的项目组成的。被包含的项目在包含
 它的项目之上，因而你能看到被包含的项目。如果一个被包含的项目是透明的，你会看透
@@ -3744,7 +3816,7 @@ skipempty                                               <b class="vimtag"> <a na
         ":syn conceal off" 回复到正常状态，必须显式给出 "conceal" 标志位。
 
 :sy[ntax] conceal
-        显示 "syntax conceal on" 或 "syntax conceal off" 之一 (经过翻译)。
+        显示 "syntax conceal on" 或 "syntax conceal off" 之一。
 
 </section><hr class="doubleline" /><section class=inner>
 <h4>8. 语法模式                                     <b class="vimtag"> <a name=":syn-pattern">:syn-pattern</a> </b> <b class="vimtag"> <a name="E401">E401</a> </b> <b class="vimtag"> <a name="E402">E402</a> </b></h4>
@@ -3830,7 +3902,7 @@ e-<code class="special">{nr}</code>  模式匹配部分的结束位置向左 <co
 引导上下文                      <b class="vimtag"> <a name=":syn-lc">:syn-lc</a> </b> <b class="vimtag"> <a name=":syn-leading">:syn-leading</a> </b> <b class="vimtag"> <a name=":syn-context">:syn-context</a> </b>
 
 <code class="note">注意</code>: 这是一个已经废弃的特性，包含它只是为了和以前的 Vim 版本后向兼容。现在，
-我们推荐使用在模式里使用  <a href="pattern.html#%2F\@%3C%20">/\@&lt;=</a>  构造。
+我们推荐使用在模式里使用  <a href="pattern.html#%2F\@%3C%20">/\@&lt;=</a>  构造。经常也可用  <a href="pattern.html#%2F\zs">/\zs</a> 。
 
 "lc" 位移指定引导上下文 -- 模式的一部分: 必须存在，但不包含在实际的匹配中。形
 如 "lc=n" 的位移会使得 Vim 在试图匹配模式前先后退 n 列，从而可以使得已在较早的
@@ -3867,7 +3939,7 @@ e-<code class="special">{nr}</code>  模式匹配部分的结束位置向左 <co
 
 外部匹配                                                <b class="vimtag"> <a name=":syn-ext-match">:syn-ext-match</a> </b>
 
-以下附加的正规表达式项目可以用在区域项目的模式中:
+以下附加的正则表达式项目可以用在区域项目的模式中:
 
                                         <b class="vimtag"> <a name="%2F\z(">/\z(</a> </b> <b class="vimtag"> <a name="%2F\z(\)">/\z(\)</a> </b> <b class="vimtag"> <a name="E50">E50</a> </b> <b class="vimtag"> <a name="E52">E52</a> </b> <b class="vimtag"> <a name="E879">E879</a> </b>
     \z(\)       标记该子表达式为 "外部的"，这意味着它可以在别的模式匹配里访
@@ -3878,7 +3950,7 @@ e-<code class="special">{nr}</code>  模式匹配部分的结束位置向左 <co
                 匹配和前面的开始模式匹配里相应子表达式的匹配的相同的字符串。
 
 有时区域项目的开始和结束模式需要共享一个相同的子表达式。常见的例子是 Perl 和许
-多 Unix 外壳里的 "here" 文档。这种效果可以通过特殊的 "\z" 正规表达式项目完成。
+多 Unix 外壳里的 "here" 文档。这种效果可以通过特殊的 "\z" 正则表达式项目完成。
 它把子表达式标为 "外部的"，也就是说可以从定义所在的模式的外部引用。例如，here
 文档的例子可以如此完成: 
 <code class="example">  :syn region hereDoc start="&lt;&lt;\z(\I\i*\)" end="^\z1$"</code>
@@ -3886,7 +3958,7 @@ e-<code class="special">{nr}</code>  模式匹配部分的结束位置向左 <co
 由此可见，\z 实际上有双重任务。在开始模式里，它标记 "\(\I\i*\)" 子表达式为外部
 的；在结束模式里，它把 \z1 反向引用重新定义为指向开始模式里的第一个外部子表达
 式的外部引用。跳过模式里也可以使用外部引用: 
-<code class="example">  :syn region foo start="start \(\I\i*\)" skip="not end \z1" end="end \z1"</code>
+<code class="example">  :syn region foo start="start \z(\I\i*\)" skip="not end \z1" end="end \z1"</code>
 
 <code class="note">注意</code> 普通和外部子表达式是完全不相关联，它们分别索引。如果模式 "\z(..\)\(..\)"
 应用于字符串 "aabb"，\1 会指向 "bb" 而 \z1 会指向 "aa"。也要 <code class="note">注意</code>，外部子表达
@@ -4144,16 +4216,11 @@ Vim 如果发现显示开始的行出现在 C 风格注释的内部，就使用�
 <code class="note">注意</code> ":syntax" 命令可以简化成 ":sy"，不过 ":syn" 更常用，因为看起来更舒服点。
 
 </section><hr class="doubleline" /><section class=inner>
-<h4>13. Highlight 命令                      <b class="vimtag"> <a name=":highlight">:highlight</a> </b> <b class="vimtag"> <a name=":hi">:hi</a> </b> <b class="vimtag"> <a name="E28">E28</a> </b> <b class="vimtag"> <a name="E411">E411</a> </b> <b class="vimtag"> <a name="E415">E415</a> </b></h4>
-有三种类型的高亮组:
-- 用于特定语言的。这些组的名字以该语言的名字开始。它们中很多没有属性，而是链接
-  到第二种类型的组。
-- 用于所有语法语言的。
-- 用于 <a href="options.html#'highlight'">'highlight'</a> 选项的。
-                                                        <b class="vimtag"> <a name="hitest.vim">hitest.vim</a> </b>
-用这个命令，你可以看到当前激活的所有组: 
-<code class="example">    :so $VIMRUNTIME/syntax/hitest.vim</code>
-它会打开一个新窗口，其中包含所有的高亮组名，以它们本身的颜色显示。
+<h4>13. Colorschemes                                <b class="vimtag"> <a name="color-schemes">color-schemes</a> </b></h4>
+下一小节介绍如何为个别高亮组找到相关信息以及指定颜色。其实你更有可能只想用
+ <a href="syntax.html#:colorscheme">:colorscheme</a>  命令选择一组颜色，例如: 
+<code class="example"></code>
+<code class="example">            colorscheme pablo</code>
 
                                                 <b class="vimtag"> <a name=":colo">:colo</a> </b> <b class="vimtag"> <a name=":colorscheme">:colorscheme</a> </b> <b class="vimtag"> <a name="E185">E185</a> </b>
 :colo[rscheme]          输出当前激活的色彩方案名。基本上等同 
@@ -4169,21 +4236,67 @@ Vim 如果发现显示开始的行出现在 C 风格注释的内部，就使用�
                         它不能递归调用，所以你不能在色彩方案脚本里使用
                         ":colorscheme"。
 
-                        要定制色彩方案，用新名，如 "~/.vim/colors/mine.vim"，
-                        并用  <a href="repeat.html#:runtime">:runtime</a>  载入原来的色彩方案: 
-<code class="example">                                runtime colors/evening.vim</code>
-<code class="example">                                hi Statement ctermfg=Blue guifg=Blue</code>
+要定制色彩方案，你有两个选项。要修改特定色彩的外观，可在载入方案前重新定义某色
+彩名。dsert 方案中光标用 khaki 色。要使用同一色彩的更深版本: 
 <code class="example"></code>
-                        色彩方案载入前，激活  <a href="autocmd.html#ColorSchemePre">ColorSchemePre</a>  自动命令事件。
-                        色彩方案载入后，激活  <a href="autocmd.html#ColorScheme">ColorScheme</a>  自动命令事件。关于
-                        如何编写色彩方案文件的信息: 
-<code class="example">                                :edit $VIMRUNTIME/colors/README.txt</code>
+<code class="example">        let v:colornames['khaki'] = '#bdb76b'</code>
+<code class="example">        colorscheme desert</code>
+
+要进一步定制，如修改   <a href="syntax.html#:highlight-link">:highlight-link</a>  关联，用新名，如
+"~/.vim/colors/mine.vim"，并用  <a href="repeat.html#:runtime">:runtime</a>  载入原来的色彩方案: 
+<code class="example">        runtime colors/evening.vim</code>
+<code class="example">        hi Statement ctermfg=Blue guifg=Blue</code>
 <code class="example"></code>
+色彩方案载入前，先执行所有的缺省色彩列表脚本 ( <code class="badlink">colors/lists/default.vim</code> ) 然后
+激活  <a href="autocmd.html#ColorSchemePre">ColorSchemePre</a>  自动命令事件。色彩方案载入后，激活  <a href="autocmd.html#ColorScheme">ColorScheme</a>  自动命
+令事件。
+
+                                                <b class="vimtag"> <a name="colorscheme-override">colorscheme-override</a> </b>
+如果色彩方案基本满意，可用  <a href="autocmd.html#ColorScheme">ColorScheme</a>  自动命令在其上做少量修改。例如，要删
+除背景色 (在某些终端中这可使之透明): 
+<code class="example">        augroup my_colorschemes</code>
+<code class="example">          au!</code>
+<code class="example">          au Colorscheme pablo hi Normal ctermbg=NONE</code>
+<code class="example">        augroup END</code>
+<code class="example"></code>
+多修改一些色彩: 
+<code class="example">        augroup my_colorschemes</code>
+<code class="example">          au!</code>
+<code class="example">          au Colorscheme pablo hi Normal ctermbg=NONE</code>
+<code class="example">                      \ | higlight Special ctermfg=63</code>
+<code class="example">                      \ | highlight Identifier ctermfg=44</code>
+<code class="example">        augroup END</code>
+<code class="example"></code>
+如果要做大量修改，最好把发布的色彩方案复制到你自己的主目录并作修改: 
+<code class="example">        :!cp $VIMRUNTIME/colors/pablo.vim ~/.vim/colors</code>
+<code class="example">        :edit ~/.vim/colors/pablo.vim</code>
+<code class="example"></code>
+Vim 9.0 更新了色彩方案的列表，使之能在许多不同的终端上工作。一个修改常常是定义
+Normal 高亮组以确保色彩完美。如果你还是喜欢旧版本，可以在这里找到:
+<a href="https://github.com/vim/colorschemes/blob/master/legacy_colors/">https://github.com/vim/colorschemes/blob/master/legacy_colors/</a>
+
+关于如何编写色彩方案文件的信息: 
+<code class="example">        :edit $VIMRUNTIME/colors/README.txt</code>
+<code class="example"></code>
+<code class="example"></code>
+</section><hr class="doubleline" /><section class=inner>
+<h4>14. Highlight 命令                      <b class="vimtag"> <a name=":highlight">:highlight</a> </b> <b class="vimtag"> <a name=":hi">:hi</a> </b> <b class="vimtag"> <a name="E28">E28</a> </b> <b class="vimtag"> <a name="E411">E411</a> </b> <b class="vimtag"> <a name="E415">E415</a> </b></h4>
+有三种类型的高亮组:
+- 用于特定语言的。这些组的名字以该语言的名字开始。它们中很多没有属性，而是链接
+  到第二种类型的组。
+- 用于所有语法语言的。
+- 用于 <a href="options.html#'highlight'">'highlight'</a> 选项的。
+                                                        <b class="vimtag"> <a name="hitest.vim">hitest.vim</a> </b>
+用这个命令，你可以看到当前激活的所有组: 
+<code class="example">    :so $VIMRUNTIME/syntax/hitest.vim</code>
+它会打开一个新窗口，其中包含所有的高亮组名，以它们本身的颜色显示。
+
 :hi[ghlight]            列出当前所有的有属性设置的高亮组。
 
 :hi[ghlight] <code class="special">{group-name}</code>
                         列出一个高亮组。
 
+                                                <b class="vimtag"> <a name="highlight-clear">highlight-clear</a> </b> <b class="vimtag"> <a name=":hi-clear">:hi-clear</a> </b>
 :hi[ghlight] clear      复位高亮设置为缺省值。删除所有用户增加的组的高亮属性。
                         用当前的 <a href="options.html#'background'">'background'</a> 的值来决定所使用的缺省颜色。
                         如果有缺省链接，恢复之。 <a href="syntax.html#:hi-link">:hi-link</a> 
@@ -4193,7 +4306,9 @@ Vim 如果发现显示开始的行出现在 C 风格注释的内部，就使用�
                         屏蔽一个高亮组的所有高亮设置。并 <code class="emphasis">不</code> 复原缺省的颜色。
 
 :hi[ghlight] <code class="special">[default]</code> <code class="special">{group-name}</code> <code class="special">{key}</code>=<code class="special">{arg}</code> ..
-                        增加高亮组，或者更改已有的组高亮设置。
+                        增加高亮组，或者更改已有的组高亮设置。如果给出的色彩名
+                        不能识别，载入每个  <a href="options.html#'runtimepath'">'runtimepath'</a>  里找到的
+                         <code class="badlink">colors/lists/default.vim</code> 。
                          <a href="syntax.html#highlight-args">highlight-args</a>  说明 <code class="special">{key}</code>=<code class="special">{arg}</code> 的参数。
                          <a href="syntax.html#:highlight-default">:highlight-default</a>  说明可选的 <code class="special">[default]</code> 参数。
 
@@ -4232,13 +4347,17 @@ gui     GUI
 1. 普通终端的高亮参数
 
                                         <b class="vimtag"> <a name="bold">bold</a> </b> <b class="vimtag"> <a name="underline">underline</a> </b> <b class="vimtag"> <a name="undercurl">undercurl</a> </b>
-                                        <b class="vimtag"> <a name="inverse">inverse</a> </b> <b class="vimtag"> <a name="italic">italic</a> </b> <b class="vimtag"> <a name="standout">standout</a> </b>
-                                        <b class="vimtag"> <a name="nocombine">nocombine</a> </b> <b class="vimtag"> <a name="strikethrough">strikethrough</a> </b>
+                                        <b class="vimtag"> <a name="underdouble">underdouble</a> </b> <b class="vimtag"> <a name="underdotted">underdotted</a> </b>
+                                        <b class="vimtag"> <a name="underdashed">underdashed</a> </b> <b class="vimtag"> <a name="inverse">inverse</a> </b> <b class="vimtag"> <a name="italic">italic</a> </b>
+                                        <b class="vimtag"> <a name="standout">standout</a> </b> <b class="vimtag"> <a name="nocombine">nocombine</a> </b> <b class="vimtag"> <a name="strikethrough">strikethrough</a> </b>
 term=<code class="special">{attr-list}</code>                        <b class="vimtag"> <a name="attr-list">attr-list</a> </b> <b class="vimtag"> <a name="highlight-term">highlight-term</a> </b> <b class="vimtag"> <a name="E418">E418</a> </b>
         attr-list 是逗号分隔的下述项目 (不能有空格) 的列表 (任何顺序都可以):
                 bold
                 underline
                 undercurl       不一定总是可用
+                underdouble     不一定总是可用
+                underdotted     不一定总是可用
+                underdashed     不一定总是可用
                 strikethrough   不一定总是可用
                 reverse
                 inverse         同 reverse
@@ -4248,14 +4367,25 @@ term=<code class="special">{attr-list}</code>                        <b class="v
                 NONE            不使用属性 (用于复位)
 
         <code class="note">注意</code> 这里使用 "bold" 和使用粗体字体都可以，效果相同。
-        "undercurl" 是波浪状的下划线。如果 "undercurl" 不可用，它会用
-        "underline" 代替。一般而言，只有 GUI 和部分终端才能使用 "undercurl" 和
+                                                        <b class="vimtag"> <a name="underline-codes">underline-codes</a> </b>
+        "undercurl" 是波浪状的下划线。如果 "undercurl" 不可用，用 "underline"
+        代替。一般而言，只有 GUI 和部分终端才能使用 "undercurl" 和
         "strikethrough"。其颜色可用  <a href="syntax.html#highlight-guisp">highlight-guisp</a>  或  <a href="syntax.html#highlight-ctermul">highlight-ctermul</a> 
         设置。终端中，可以尝试以下 termcap 项目来使用波浪下划线: 
 <code class="example">            let &amp;t_Cs = "\e[4:3m"</code>
 <code class="example">            let &amp;t_Ce = "\e[4:0m"</code>
 <code class="example"></code>
-<code class="example"></code>
+        "underdouble" 是双下划线，"underdotted" 是点状的下划线，而
+        "underdashed" 是虚线的下划线。它们只有部分终端支持。如果你的终端支持，
+        可以如此指定代码: 
+<code class="example">            let &amp;t_Us = "\e[4:2m"</code>
+<code class="example">            let &amp;t_ds = "\e[4:4m"</code>
+<code class="example">            let &amp;t_Ds = "\e[4:5m"</code>
+         <a href="term.html#t_Ce">t_Ce</a>  重设所有这些，这和波浪状的下划线 (undercurl) 用的一样。
+        如果 t_Us、t_ds 或 t_Ds 没有设置，underline 用作后备。
+
+
+
 start=<code class="special">{term-list}</code>                               <b class="vimtag"> <a name="highlight-start">highlight-start</a> </b> <b class="vimtag"> <a name="E422">E422</a> </b>
 stop=<code class="special">{term-list}</code>                                <b class="vimtag"> <a name="term-list">term-list</a> </b> <b class="vimtag"> <a name="highlight-stop">highlight-stop</a> </b>
         可以得到终端上的非标准的属性的终端代码的列表。
@@ -4302,6 +4432,14 @@ ctermul=<code class="special">{color-nr}</code>                              <b 
         值。color-xterm 的颜色可以通过 .Xdefaults 文件修改。不幸的是，这意味着
         每个用户未必会得到完全相同的颜色。 <a href="syntax.html#xterm-color">xterm-color</a>  提供带色彩的 xterm 的
         信息。
+                                                        <b class="vimtag"> <a name="tmux">tmux</a> </b>
+        用 tmux 时可在 tmux config 里: 
+<code class="example">            # tmux colors</code>
+<code class="example">            set -s default-terminal "tmux-256color"</code>
+<code class="example">            set -as terminal-overrides ",*-256color:Tc"</code>
+        详情可见:
+        <a href="https://github.com/tmux/tmux/wiki/FAQ#how-do-i-use-a-256-colour-terminal">https://github.com/tmux/tmux/wiki/FAQ#how-do-i-use-a-256-colour-terminal</a>
+        <a href="https://github.com/tmux/tmux/wiki/FAQ#how-do-i-use-rgb-colour">https://github.com/tmux/tmux/wiki/FAQ#how-do-i-use-rgb-colour</a>
 
         MS-Windows 的标准颜色是固定的 (在控制窗口上)，所以我们用这些名字。在
         X11 上，颜色名字的含义是固定的，所以我们用这些颜色设置，以使高亮设置可
@@ -4378,7 +4516,7 @@ font=<code class="special">{font-name}</code>                                   
 
         字体名 "NONE" 可以用来恢复到缺省字体。如果为 "Normal" 组设置字体，该字
         体成为缺省字体 (直到改变了 <a href="options.html#'guifont'">'guifont'</a> 选项为止；使用最后设置的那个)。
-        以下说明只适用于 Motif 和 Athena，不包括其它 GUI:
+        以下说明只适用于 Motif，不包括其它 GUI:
         设置 "Menu" 组的字体会改变菜单。设置 "Tooltip" 组的字体会改变工具提
         示。除了 Menu 和 Tooltip 的所有使用的字体必须和缺省字体的字符大小相
         同。否则，重画时会有问题。
@@ -4420,48 +4558,71 @@ guisp=<code class="special">{color-name}</code>                                 
                 "bb"    为蓝色值
                 "gg"    为绿色值
         所有的值都以十六进制表示，范围是 "00" 到 "ff"。例如: 
-<code class="example">  :highlight Comment guifg=#11f0c3 guibg=#ff00ff</code>
+<code class="example">            :highlight Comment guifg=#11f0c3 guibg=#ff00ff</code>
+
+        如果你是色彩方案的作者而且频繁使用相同的十六进制颜色，可为此在
+         <a href="eval.html#v:colornames">v:colornames</a>  里定义一个名字。例如: 
+<code class="example"></code>
+<code class="example">            # 提供此色彩的缺省值，但允许用户覆盖之。</code>
+<code class="example">            :call extend(v:colornames, {'alt_turquoise': '#11f0c3'}, 'keep')</code>
+<code class="example">            :highlight Comment guifg=alt_turquoise guibg=magenta</code>
+
+        如果使用依赖于命名色彩的色彩方案，而你又想调节那些颜色的具体外观，可在
+        载入方案前覆盖  <a href="eval.html#v:colornames">v:colornames</a>  里的值: 
+<code class="example"></code>
+<code class="example">            let v:colornames['alt_turquoise'] = '#22f0d3'</code>
+<code class="example">            colorscheme alt</code>
+
+        如果你要开发被他人依赖的色彩列表，最好给你的色彩名加上前缀。惯例是把这
+        些色彩列表放在 colors/lists 目录里。具体例子可见
+        '$VIMRUNTIME/colors/lists/csscolors.vim'。色彩方案里可载入此列表: 
+<code class="example"></code>
+<code class="example">            :runtime colors/lists/csscolors.vim</code>
+<code class="example">            :highlight Comment guifg=css_turquoise</code>
+
 
                                         <b class="vimtag"> <a name="highlight-groups">highlight-groups</a> </b> <b class="vimtag"> <a name="highlight-default">highlight-default</a> </b>
 有一些缺省的高亮组。<a href="options.html#'highlight'">'highlight'</a> 选项缺省使用这些组。<code class="note">注意</code> 高亮取决于
 <a href="options.html#'background'">'background'</a> 的值。你可以用 ":highlight" 命令看到当前的设置。
+下表中色彩使用其本身高亮。如果不可读的话，试试可视选择。
+
                                                         <b class="vimtag"> <a name="hl-ColorColumn">hl-ColorColumn</a> </b>
-ColorColumn     用于 <a href="options.html#'colorcolumn'">'colorcolumn'</a> 设置的列
+ColorColumn     用于 <a href="options.html#'colorcolumn'">'colorcolumn'</a> 设置的列。
                                                         <b class="vimtag"> <a name="hl-Conceal">hl-Conceal</a> </b>
-Conceal         代替隐藏文本的填充字符 (见 <a href="options.html#'conceallevel'">'conceallevel'</a>)
+Conceal         代替隐藏文本的填充字符 (见 <a href="options.html#'conceallevel'">'conceallevel'</a>)。
                                                         <b class="vimtag"> <a name="hl-Cursor">hl-Cursor</a> </b>
-Cursor          光标所在的字符
-lCursor         使用  <a href="map.html#language-mapping">language-mapping</a>  时光标所在的字符 (见 <a href="options.html#'guicursor'">'guicursor'</a>)
+Cursor          光标所在的字符。
+lCursor         使用  <a href="map.html#language-mapping">language-mapping</a>  时光标所在的字符 (见 <a href="options.html#'guicursor'">'guicursor'</a>)。
                                                         <b class="vimtag"> <a name="hl-CursorIM">hl-CursorIM</a> </b>
-CursorIM        类似于 Cursor，但用于 IME 模式  <a href="mbyte.html#CursorIM">CursorIM</a> 
+CursorIM        类似于 Cursor，但用于 IME 模式。 <a href="mbyte.html#CursorIM">CursorIM</a> 
                                                         <b class="vimtag"> <a name="hl-CursorColumn">hl-CursorColumn</a> </b>
-CursorColumn    置位 <a href="options.html#'cursorcolumn'">'cursorcolumn'</a> 时，光标所在的屏幕列
+CursorColumn    置位 <a href="options.html#'cursorcolumn'">'cursorcolumn'</a> 时，光标所在的屏幕列。
                                                         <b class="vimtag"> <a name="hl-CursorLine">hl-CursorLine</a> </b>
-CursorLine      置位 <a href="options.html#'cursorline'">'cursorline'</a> 时，光标所在的屏幕行
+CursorLine      置位 <a href="options.html#'cursorline'">'cursorline'</a> 时，光标所在的屏幕行。
                                                         <b class="vimtag"> <a name="hl-Directory">hl-Directory</a> </b>
-Directory       目录名 (还有列表里的其它特殊名字)
+Directory       目录名 (还有列表里的其它特殊名字)。
                                                         <b class="vimtag"> <a name="hl-DiffAdd">hl-DiffAdd</a> </b>
-DiffAdd         比较模式: 增加的行  <a href="diff.html#diff.txt">diff.txt</a> 
+DiffAdd         比较模式: 增加的行。 <a href="diff.html#diff.txt">diff.txt</a> 
                                                         <b class="vimtag"> <a name="hl-DiffChange">hl-DiffChange</a> </b>
-DiffChange      比较模式: 改变的行  <a href="diff.html#diff.txt">diff.txt</a> 
+DiffChange      比较模式: 改变的行。 <a href="diff.html#diff.txt">diff.txt</a> 
                                                         <b class="vimtag"> <a name="hl-DiffDelete">hl-DiffDelete</a> </b>
-DiffDelete      比较模式: 删除的行  <a href="diff.html#diff.txt">diff.txt</a> 
+DiffDelete      比较模式: 删除的行。 <a href="diff.html#diff.txt">diff.txt</a> 
                                                         <b class="vimtag"> <a name="hl-DiffText">hl-DiffText</a> </b>
-DiffText        比较模式: 改变行里的改动文本  <a href="diff.html#diff.txt">diff.txt</a> 
+DiffText        比较模式: 改变行里的改动文本。 <a href="diff.html#diff.txt">diff.txt</a> 
                                                         <b class="vimtag"> <a name="hl-EndOfBuffer">hl-EndOfBuffer</a> </b>
 EndOfBuffer     缓冲区的末行之后的填充行 (~)。缺省用  <a href="syntax.html#hl-NonText">hl-NonText</a>  类似的高亮。
                                                         <b class="vimtag"> <a name="hl-ErrorMsg">hl-ErrorMsg</a> </b>
-ErrorMsg        命令行上的错误信息
+ErrorMsg        命令行上的错误信息。
                                                         <b class="vimtag"> <a name="hl-VertSplit">hl-VertSplit</a> </b>
-VertSplit       分离垂直分割窗口的列
+VertSplit       分离垂直分割窗口的列。
                                                         <b class="vimtag"> <a name="hl-Folded">hl-Folded</a> </b>
-Folded          用于关闭的折叠的行
+Folded          用于关闭的折叠的行。
                                                         <b class="vimtag"> <a name="hl-FoldColumn">hl-FoldColumn</a> </b>
 FoldColumn      <a href="options.html#'foldcolumn'">'foldcolumn'</a>
                                                         <b class="vimtag"> <a name="hl-SignColumn">hl-SignColumn</a> </b>
-SignColumn      显示  <a href="sign.html#signs">signs</a>  的列
+SignColumn      显示  <a href="sign.html#signs">signs</a>  的列。
                                                         <b class="vimtag"> <a name="hl-IncSearch">hl-IncSearch</a> </b>
-IncSearch       <a href="options.html#'incsearch'">'incsearch'</a> 高亮；也用于被 ":s///c" 替换的文本
+IncSearch       <a href="options.html#'incsearch'">'incsearch'</a> 高亮；也用于被 ":s///c" 替换的文本。
                                                         <b class="vimtag"> <a name="hl-LineNr">hl-LineNr</a> </b>
 LineNr          ":number" 和 ":#" 命令与置位 <a href="options.html#'number'">'number'</a> 或 <a href="options.html#'relativenumber'">'relativenumber'</a> 选项
                 时的行号。
@@ -4471,20 +4632,27 @@ LineNrAbove     置位 <a href="options.html#'relativenumber'">'relativenumber'<
 LineNrBelow     置位 <a href="options.html#'relativenumber'">'relativenumber'</a> 选项时，光标下方的行号。
                                                         <b class="vimtag"> <a name="hl-CursorLineNr">hl-CursorLineNr</a> </b>
 CursorLineNr    和 LineNr 类似，置位 <a href="options.html#'cursorline'">'cursorline'</a> 且 <a href="options.html#'cursorlineopt'">'cursorlineopt'</a> 设为
-                "number" 或 "both"，或置位 <a href="options.html#'relativenumber'">'relativenumber'</a> 时用于光标行。
+                "number" 或 "both" 时，用于光标行。
+                                                        <b class="vimtag"> <a name="hl-CursorLineSign">hl-CursorLineSign</a> </b>
+CursorLineSign  和 SignColumn 类似，置位  <a href="options.html#'cursorline'">'cursorline'</a> 时用于光标行。
+                                                        <b class="vimtag"> <a name="hl-CursorLineFold">hl-CursorLineFold</a> </b>
+CursorLineFold  和 FoldColumn 类似，置位  <a href="options.html#'cursorline'">'cursorline'</a> 时用于光标行。
                                                         <b class="vimtag"> <a name="hl-MatchParen">hl-MatchParen</a> </b>
 MatchParen      如果光标所在或刚刚在它之前的字符是配对的括号一部分的话，它和它
                 的配对。 <a href="pi_paren.html#pi_paren.txt">pi_paren.txt</a> 
 
+                                                        <b class="vimtag"> <a name="hl-MessageWindow">hl-MessageWindow</a> </b>
+MessageWindow    <a href="options.html#'cmdheight'">'cmdheight'</a> 为零时使用的信息弹出窗口。如无定义，使用
+                 <a href="syntax.html#hl-WarningMsg">hl-WarningMsg</a> 。
                                                         <b class="vimtag"> <a name="hl-ModeMsg">hl-ModeMsg</a> </b>
-ModeMsg         <a href="options.html#'showmode'">'showmode'</a> 消息 (例如，"-- INSERT --")
+ModeMsg         <a href="options.html#'showmode'">'showmode'</a> 消息 (例如，"-- INSERT --")。
                                                         <b class="vimtag"> <a name="hl-MoreMsg">hl-MoreMsg</a> </b>
 MoreMsg          <a href="message.html#more-prompt">more-prompt</a> 
                                                         <b class="vimtag"> <a name="hl-NonText">hl-NonText</a> </b>
 NonText         窗口尾部的 '@'，<a href="options.html#'showbreak'">'showbreak'</a> 的字符和其它在文本里实际不存在的字
                 符 (例如，代替行尾放不下的双宽字符而显示的 "&gt;")。
                                                         <b class="vimtag"> <a name="hl-Normal">hl-Normal</a> </b>
-Normal          普通文本
+Normal          普通文本。
                                                         <b class="vimtag"> <a name="hl-Pmenu">hl-Pmenu</a> </b>
 Pmenu           弹出菜单: 普通项目。
                                                         <b class="vimtag"> <a name="hl-PmenuSel">hl-PmenuSel</a> </b>
@@ -4493,13 +4661,20 @@ PmenuSel        弹出菜单: 选中项目。
 PmenuSbar       弹出菜单: 滚动条。
                                                         <b class="vimtag"> <a name="hl-PmenuThumb">hl-PmenuThumb</a> </b>
 PmenuThumb      弹出菜单: 滚动条的拇指 (thumb)。
+                                                        <b class="vimtag"> <a name="hl-PopupNotification">hl-PopupNotification</a> </b>
+PopupNotification
+                  <a href="popup.html#popup_notification()">popup_notification()</a>  创建的弹出窗口。如无定义，使用
+                 <a href="syntax.html#hl-WarningMsg">hl-WarningMsg</a> 。
                                                         <b class="vimtag"> <a name="hl-Question">hl-Question</a> </b>
-Question         <a href="message.html#hit-enter">hit-enter</a>  提示和 yes/no 问题
+Question         <a href="message.html#hit-enter">hit-enter</a>  提示和 yes/no 问题。
                                                         <b class="vimtag"> <a name="hl-QuickFixLine">hl-QuickFixLine</a> </b>
 QuickFixLine    快速修复窗口的当前  <a href="quickfix.html#quickfix">quickfix</a>  项目。
                                                         <b class="vimtag"> <a name="hl-Search">hl-Search</a> </b>
 Search          最近搜索模式的高亮 (见 <a href="options.html#'hlsearch'">'hlsearch'</a>)。
                 也用于类似的要突出显示的项目。
+                                                        <b class="vimtag"> <a name="hl-CurSearch">hl-CurSearch</a> </b>
+CurSearch       最近搜索模式的当前匹配 (见 <a href="options.html#'hlsearch'">'hlsearch'</a>)。
+                <code class="note">备注</code>: 只在刚搜索后才正确，内容作了修改或屏幕重画后可能会过时。
                                                         <b class="vimtag"> <a name="hl-SpecialKey">hl-SpecialKey</a> </b>
 SpecialKey      ":map" 列出的 Meta 和特殊键，也包括文本里不可显示字符的显示和
                 <a href="options.html#'listchars'">'listchars'</a>。
@@ -4517,7 +4692,7 @@ SpellLocal      拼写检查器能识别但只在其它区域使用的单词。 
 SpellRare       拼写检查器能识别但很少使用的单词。 <a href="spell.html#spell">spell</a> 
                 它会和本来应该使用的高亮进行组合。
                                                         <b class="vimtag"> <a name="hl-StatusLine">hl-StatusLine</a> </b>
-StatusLine      当前窗口的状态行
+StatusLine      当前窗口的状态行。
                                                         <b class="vimtag"> <a name="hl-StatusLineNC">hl-StatusLineNC</a> </b>
 StatusLineNC    非当前窗口的状态行
                 <code class="note">注意</code>: 如果等于 "StatusLine"，Vim 会使用 "^^^" 指示当前窗口的状
@@ -4527,24 +4702,24 @@ StatusLineTerm   <a href="terminal.html#terminal">terminal</a>  窗口为当前�
                                                         <b class="vimtag"> <a name="hl-StatusLineTermNC">hl-StatusLineTermNC</a> </b>
 StatusLineTermNC    <a href="terminal.html#terminal">terminal</a>  窗口不为当前窗口时的状态行。
                                                         <b class="vimtag"> <a name="hl-TabLine">hl-TabLine</a> </b>
-TabLine         标签页行，非活动标签页标签
+TabLine         标签页行，非活动标签页标签。
                                                         <b class="vimtag"> <a name="hl-TabLineFill">hl-TabLineFill</a> </b>
-TabLineFill     标签页行，没有标签的地方
+TabLineFill     标签页行，没有标签的地方。
                                                         <b class="vimtag"> <a name="hl-TabLineSel">hl-TabLineSel</a> </b>
-TabLineSel      标签页行，活动标签页标签
+TabLineSel      标签页行，活动标签页标签。
                                                         <b class="vimtag"> <a name="hl-Terminal">hl-Terminal</a> </b>
-Terminal         <a href="terminal.html#terminal">terminal</a>  窗口 (见  <a href="terminal.html#terminal-size-color">terminal-size-color</a> )
+Terminal         <a href="terminal.html#terminal">terminal</a>  窗口 (见  <a href="terminal.html#terminal-size-color">terminal-size-color</a> )。
                                                         <b class="vimtag"> <a name="hl-Title">hl-Title</a> </b>
-Title           ":set all"、":autocmd" 等输出的标题
+Title           ":set all"、":autocmd" 等输出的标题。
                                                         <b class="vimtag"> <a name="hl-Visual">hl-Visual</a> </b>
-Visual          可视模式的选择区
+Visual          可视模式的选择区。
                                                         <b class="vimtag"> <a name="hl-VisualNOS">hl-VisualNOS</a> </b>
 VisualNOS       Vim 是 "选择区的非拥有者" 时，可视模式的选择区。只有 X11 GUI
                 的  <a href="gui_x11.html#gui-x11">gui-x11</a>  和  <a href="term.html#xterm-clipboard">xterm-clipboard</a>  才提供此支持。
                                                         <b class="vimtag"> <a name="hl-WarningMsg">hl-WarningMsg</a> </b>
-WarningMsg      <code class="note">警告</code>消息
+WarningMsg      <code class="note">警告</code>消息。
                                                         <b class="vimtag"> <a name="hl-WildMenu">hl-WildMenu</a> </b>
-WildMenu        <a href="options.html#'wildmenu'">'wildmenu'</a> 补全的当前匹配
+WildMenu        <a href="options.html#'wildmenu'">'wildmenu'</a> 补全的当前匹配。
 
                                         <b class="vimtag"> <a name="hl-User1">hl-User1</a> </b> <b class="vimtag"> <a name="hl-User1..9">hl-User1..9</a> </b> <b class="vimtag"> <a name="hl-User9">hl-User9</a> </b>
 <a href="options.html#'statusline'">'statusline'</a> 语法允许在状态行和标尺 (通过 <a href="options.html#'rulerformat'">'rulerformat'</a>) 上使用 9 种不同的高
@@ -4557,8 +4732,8 @@ GUI 里，你可以使用以下这些组来设置菜单、滚动条和工具提�
 Menu            当前菜单的字体、背景色和前景色。也包括工具栏。
                 可用的高亮参数: font、guibg、guifg。
 
-                <code class="note">注意</code>: Motif 和 Athena 里，font 参数在所有情况下实际上指定字体
-                集 (fontset)，不管 <a href="options.html#'guifontset'">'guifontset'</a> 是否为空。所以，它和当前的
+                <code class="note">注意</code>: Motif 里，font 参数在所有情况下实际上指定字体集
+                (fontset)，不管 <a href="options.html#'guifontset'">'guifontset'</a> 是否为空。所以，它和当前的
                  <a href="mlang.html#:language">:language</a>  有关系。
 
                                                         <b class="vimtag"> <a name="hl-Scrollbar">hl-Scrollbar</a> </b>
@@ -4569,12 +4744,12 @@ Scrollbar       主窗口滚动条的当前背景和前景色。
 Tooltip         当前工具提示的字体、背景色和前景色。也包括工具栏。
                 可用的高亮参数: font、guibg、guifg。
 
-                <code class="note">注意</code>: Motif 和 Athena 里，font 参数在所有情况下都指定字体集
-                (fontset)，不管 <a href="options.html#'guifontset'">'guifontset'</a> 是否为空，从而在设置的时候和当前
-                 <a href="mlang.html#:language">:language</a>  相联系。
+                <code class="note">注意</code>: Motif 里，font 参数在所有情况下都指定字体集 (fontset)，
+                不管 <a href="options.html#'guifontset'">'guifontset'</a> 是否为空，从而在设置的时候和当前  <a href="mlang.html#:language">:language</a> 
+                相联系。
 
 </section><hr class="doubleline" /><section class=inner>
-<h4>14. 链接组                      <b class="vimtag"> <a name=":hi-link">:hi-link</a> </b> <b class="vimtag"> <a name=":highlight-link">:highlight-link</a> </b> <b class="vimtag"> <a name="E412">E412</a> </b> <b class="vimtag"> <a name="E413">E413</a> </b></h4>
+<h4>15. 链接组                      <b class="vimtag"> <a name=":hi-link">:hi-link</a> </b> <b class="vimtag"> <a name=":highlight-link">:highlight-link</a> </b> <b class="vimtag"> <a name="E412">E412</a> </b> <b class="vimtag"> <a name="E413">E413</a> </b></h4>
 如果如果你想为几个语法组使用相同的高亮设置，更简单的方法是把这些组链接到一个共
 同的高亮组，并且只为该组指定颜色属性。
 
@@ -4610,7 +4785,7 @@ Tooltip         当前工具提示的字体、背景色和前景色。也包括�
 <code class="example">    highlight! default link cComment Question</code>
 <code class="example"></code>
 </section><hr class="doubleline" /><section class=inner>
-<h4>15. 清理                                                <b class="vimtag"> <a name=":syn-clear">:syn-clear</a> </b> <b class="vimtag"> <a name="E391">E391</a> </b></h4>
+<h4>16. 清理                                                <b class="vimtag"> <a name=":syn-clear">:syn-clear</a> </b> <b class="vimtag"> <a name="E391">E391</a> </b></h4>
 如果你想为当前缓冲区清除所有的语法设置，可以使用如下命令: 
 <code class="example">  :syntax clear</code>
 <code class="example"></code>
@@ -4676,15 +4851,15 @@ Unix 上你可以使用文件 ~/.vim/after/syntax/syncolor.vim。例如:
 
                                                         <b class="vimtag"> <a name="syntax_cmd">syntax_cmd</a> </b>
 载入 syntax/syncolor.vim 文件时，"syntax_cmd" 变量设为以下这些值之一:
-   "on"         ":syntax on" 命令。高亮颜色被覆盖，但是链接被保持
-   "enable"     ":syntax enable" 命令。只为没有设置过高亮的组定义颜色。使用
-                ":syntax default"。
-   "reset"      ":syntax reset" 命令或者载入色彩方案。定义所有的颜色。
+   "on"         `:syntax on` 命令。高亮颜色被覆盖，但是链接被保持
+   "enable"     `:syntax enable` 命令。只为没有设置过高亮的组定义颜色。使用
+                `:highlight default`。
+   "reset"      `:syntax reset` 命令或者载入色彩方案。定义所有的颜色。
    "skip"       不定义颜色。用来跳过 <a href="options.html#'runtimepath'">'runtimepath'</a> 里较早出现的 syncolor.vim
                 已经设置过的缺省设置。
 
 </section><hr class="doubleline" /><section class=inner>
-<h4>16. 高亮标签                                            <b class="vimtag"> <a name="tag-highlight">tag-highlight</a> </b></h4>
+<h4>17. 高亮标签                                            <b class="vimtag"> <a name="tag-highlight">tag-highlight</a> </b></h4>
 如果你想高亮文件里的所有标签，可以使用如下映射。
 
         <code class="special">&lt;F11&gt;</code>   -- 生成 tags.vim 文件，并高亮标签。
@@ -4696,11 +4871,12 @@ Unix 上你可以使用文件 ~/.vim/after/syntax/syncolor.vim。例如:
 警 告: 标签文件越长，这会越慢，而 Vim 消耗的内存也越多。
 
 这里只高亮 typedef，也可以针对 union 和 struct 进行设置。为此，你需要
-Exuberant ctags (可在 <a href="http://ctags.sf.net">http://ctags.sf.net</a> 找到)。
+Universal Ctags (可在 <a href="https://ctags.io">https://ctags.io</a> 找到) 或 Exuberant ctags (可在
+<a href="http://ctags.sf.net">http://ctags.sf.net</a> 找到)。
 
 在你的 Makefile 里放入以下的行:
 
-# 建立 types 的高亮文件。需要 Exuberant ctags 和 awk
+# 建立 types 的高亮文件。需要 Universal/Exuberant ctags 和 awk
 types: types.vim
 types.vim: *.[ch]
         ctags --c-kinds=gstu -o- *.[ch] |\
@@ -4710,13 +4886,13 @@ types.vim: *.[ch]
 在你的 .vimrc 里放入以下的行: 
 <code class="example"></code>
 <code class="example">   " 载入 types.vim 高亮文件，如果存在的话</code>
-<code class="example">   autocmd BufRead,BufNewFile *.[ch] let fname = expand('&lt;afile&gt;:p:h') . '/types.vim'</code>
+<code class="example">   autocmd BufRead,BufNewFile *.[ch] let fname = expand('&lt;afile&gt;:p:h') .. '/types.vim'</code>
 <code class="example">   autocmd BufRead,BufNewFile *.[ch] if filereadable(fname)</code>
-<code class="example">   autocmd BufRead,BufNewFile *.[ch]   exe 'so ' . fname</code>
+<code class="example">   autocmd BufRead,BufNewFile *.[ch]   exe 'so ' .. fname</code>
 <code class="example">   autocmd BufRead,BufNewFile *.[ch] endif</code>
 <code class="example"></code>
 </section><hr class="doubleline" /><section class=inner>
-<h4>17. 窗口局部语法                                <b class="vimtag"> <a name=":ownsyntax">:ownsyntax</a> </b></h4>
+<h4>18. 窗口局部语法                                <b class="vimtag"> <a name=":ownsyntax">:ownsyntax</a> </b></h4>
 通常，同一个缓冲区对应的所有窗口共用相同的语法设置。不过，可以为某个文件的某个
 窗口设置单独的语法设置。一个可能的例子，在一个窗口中使用普通的高亮方式编辑
 LaTeX 源代码，另一个窗口用不同的高亮方式访问相同的代码 (例如隐藏控制序列，实际
@@ -4737,7 +4913,7 @@ LaTeX 源代码，另一个窗口用不同的高亮方式访问相同的代码 (
 分割窗口时，新窗口使用原有的语法。
 
 </section><hr class="doubleline" /><section class=inner>
-<h4>18. 彩色 xterm                                  <b class="vimtag"> <a name="xterm-color">xterm-color</a> </b> <b class="vimtag"> <a name="color-xterm">color-xterm</a> </b></h4>
+<h4>19. 彩色 xterm                                  <b class="vimtag"> <a name="xterm-color">xterm-color</a> </b> <b class="vimtag"> <a name="color-xterm">color-xterm</a> </b></h4>
 多数彩色 xterm 只有八色。如果你得不到缺省设置的颜色，在 .vimrc 里使用这些行应
 该就可以了: 
 <code class="example">   :if &amp;term =~ "xterm"</code>
@@ -4870,7 +5046,7 @@ Font / Enable Bold。
 
 
 </section><hr class="doubleline" /><section class=inner>
-<h4>19. 语 法 太 慢 了                                              <b class="vimtag"> <a name=":syntime">:syntime</a> </b></h4>
+<h4>20. 语 法 太 慢 了                                              <b class="vimtag"> <a name=":syntime">:syntime</a> </b></h4>
 本节主要针对语法文件的作者。
 
 如果语法导致重画变慢，有一些小窍门。打开一些通常会有干扰的特性，比如

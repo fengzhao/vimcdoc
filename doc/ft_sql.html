@@ -33,7 +33,7 @@
 </header>
 <article id=outer>
 <section class=inner>
-<b class="vimtag"> <a name="ft_sql.txt">ft_sql.txt</a> </b>    适用于 Vim 8.2 版本。   最近更新: 2013年8月
+<b class="vimtag"> <a name="ft_sql.txt">ft_sql.txt</a> </b>    适用于 Vim 9.0 版本。   最近更新: 2022年7月
 
                                 作者: David Fishburn
                                 <code class="vim">译者</code>: Willis
@@ -133,8 +133,8 @@ Vim 预定义了若干处理文本对象动作  <a href="motion.html#object-moti
 些私有的对象。以下一组映射的建立是为了方便在这些对象间移动。取决你使用的数据库
 供应商，应该可以调整可用的对象。本文件插件试图定义许多标准和附加的对象。为了尽
 可能灵活， <a href="starting.html#vimrc">vimrc</a>  里可以这样改写可用的对象列表: 
-<code class="example">    let g:ftplugin_sql_objects = 'function,procedure,event,table,trigger' .</code>
-<code class="example">                \ ',schema,service,publication,database,datatype,domain' .</code>
+<code class="example">    let g:ftplugin_sql_objects = 'function,procedure,event,table,trigger' ..</code>
+<code class="example">                \ ',schema,service,publication,database,datatype,domain' ..</code>
 <code class="example">                \ ',index,subscription,synchronization,view,variable'</code>
 <code class="example"></code>
 存在使用上述列表的下述普通模式  <a href="intro.html#Normal">Normal</a>  和可视模式  <a href="visual.html#Visual">Visual</a>  映射: 
@@ -155,9 +155,9 @@ Vim 预定义了若干处理文本对象动作  <a href="motion.html#object-moti
 <code class="example"></code>
 缺省的 g:ftplugin_sql_objects 设置是: 
 <code class="example">    let g:ftplugin_sql_objects = 'function,procedure,event,' .</code>
-<code class="example">                \ '\\(existing\\\\|global\\s\\+temporary\\s\\+\\)\\\{,1}' .</code>
-<code class="example">                \ 'table,trigger' .</code>
-<code class="example">                \ ',schema,service,publication,database,datatype,domain' .</code>
+<code class="example">                \ '\\(existing\\\\|global\\s\\+temporary\\s\\+\\)\\\{,1}' ..</code>
+<code class="example">                \ 'table,trigger' ..</code>
+<code class="example">                \ ',schema,service,publication,database,datatype,domain' ..</code>
 <code class="example">                \ ',index,subscription,synchronization,view,variable'</code>
 <code class="example"></code>
 该设置同时能处理以下情形: 
@@ -189,7 +189,7 @@ Vim 预定义了若干处理文本对象动作  <a href="motion.html#object-moti
 <code class="example"></code>
 1.4 宏                                          <b class="vimtag"> <a name="sql-macros">sql-macros</a> </b>
 </section><hr class="singleline" /><section class=inner>
-支持 Vim 寻找宏定义的特性  <a href="options.html#'define'">'define'</a> 。使用以下正规表达式: 
+支持 Vim 寻找宏定义的特性  <a href="options.html#'define'">'define'</a> 。使用以下正则表达式: 
 <code class="example">    \c\&lt;\(VARIABLE\|DECLARE\|IN\|OUT\|INOUT\)\&gt;</code>
 <code class="example"></code>
 该设置可以处理下面的代码: 
@@ -360,7 +360,7 @@ SQL 补全插件有两种方式，静态和动态。静态模式从当前语法�
 <code class="example">                             以供选择</code>
 <code class="example">                                 :syntax list</code>
 <code class="example">    'sqlKeyword'           - 我们要求显示 sqlKeyword 高亮组的项目</code>
-<code class="example">    'sqlKeyword\w*'        - Vim 7.4 开始可用的另一个选项，使用正规表达式来决</code>
+<code class="example">    'sqlKeyword\w*'        - Vim 7.4 开始可用的另一个选项，使用正则表达式来决</code>
 <code class="example">                             定使用的语法高亮组</code>
 <code class="example">    )&lt;CR&gt;                  - 执行 :let 命令</code>
 <code class="example">    &lt;C-X&gt;&lt;C-O&gt;             - 激活全能补全的标准键击。传递 'sqlKeyword' 参数指</code>
