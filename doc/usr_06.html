@@ -51,9 +51,9 @@
  <a href="usr_06.html#06.5">06.5</a>   带颜色打印
  <a href="usr_06.html#06.6">06.6</a>   深入阅读
 
-     下一章:  <a href="usr_07.html#usr_07.txt">usr_07.txt</a>   编辑多个文件
-     前一章:  <a href="usr_05.html#usr_05.txt">usr_05.txt</a>   选项设置
-       目录:  <a href="usr_toc.html#usr_toc.txt">usr_toc.txt</a> 
+        下一章:  <a href="usr_07.html#usr_07.txt">usr_07.txt</a>   编辑多个文件
+        前一章:  <a href="usr_05.html#usr_05.txt">usr_05.txt</a>   选项设置
+          目录:  <a href="usr_toc.html#usr_toc.txt">usr_toc.txt</a> 
 
 </section><hr class="doubleline" /><section class=inner>
 <h4><b class="vimtag"> <a name="06.1">06.1</a> </b>  功能激活</h4>
@@ -65,7 +65,7 @@
 法高亮。一下子注释变成蓝色，关键字变成褐色，而字符串变成红色了。这使你可以很容
 易浏览整个文档。很快你就会发现，黑白的文本真的会降低你的效率！
 
-如果你希望总能看到语法高亮，把 "syntax enable" 命令加入到  <a href="starting.html#vimrc">vimrc</a>  文件中。
+如果你希望总能看到语法高亮，把 ":syntax enable" 命令加入到  <a href="starting.html#vimrc">vimrc</a>  文件中。
 
 如果你想语法高亮只在支持色彩的终端中生效，你可以在  <a href="starting.html#vimrc">vimrc</a>  文件中这样写: 
 <code class="example"></code>
@@ -185,7 +185,7 @@ Unix 上，可以这样:
 <code class="example">        :highlight Comment ctermfg=green guifg=green</code>
 
    属性是 "bold" (粗体) 和 "underline" (下划线) 可以用于 "cterm" 和 "gui"。如
-   果你两个都想用，可以用 "bond,underline"。详细信息请参考  <a href="syntax.html#:highlight">:highlight</a>  命令。
+   果你两个都想用，可以用 "bold,underline"。详细信息请参考  <a href="syntax.html#:highlight">:highlight</a>  命令。
 
 3. 告诉 Vim 总使用你这个色彩方案。把如下语句加入你的  <a href="starting.html#vimrc">vimrc</a>  中: 
 <code class="example"></code>
@@ -196,12 +196,12 @@ Unix 上，可以这样:
 <code class="example">        :runtime syntax/colortest.vim</code>
 <code class="example"></code>
 这样你会看到不同的颜色组合。你可以很容易的看到哪一种可读性好而且漂亮。不过这些
-不是仅有的可用颜色。可以指定 #rrggbb 十六进制颜色，也可以为十六进制颜色在 |v:
-colornames| 里定义新颜色名，如: 
+不是仅有的可用颜色。可以指定 #rrggbb 十六进制颜色，也可以为十六进制颜色在
+ <a href="eval.html#v:colornames">v:colornames</a>  里定义新颜色名，如: 
 <code class="example"></code>
 <code class="example">        let v:colornames['mine_red'] = '#aa0000'</code>
 <code class="example"></code>
-如果你编写别人都能用的色彩方案，<code class="note">注意</code> 仅当颜色尚不存在时添加定义: 
+如果你想编写别人都能用的色彩方案，<code class="note">注意</code> 仅当颜色尚不存在时添加定义: 
 <code class="example"></code>
 <code class="example">        call extend(v:colornames, {'mine_red': '#aa0000'}, 'keep')</code>
 <code class="example"></code>
